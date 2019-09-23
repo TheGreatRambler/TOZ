@@ -4,6 +4,8 @@
 #include <fcntl.h> 
 #include <errno.h>
 
+#include "packetStructure.hpp"
+
 namespace HID {
   int hidgStreamFileNum;
   void Open() {
