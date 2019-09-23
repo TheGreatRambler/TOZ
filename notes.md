@@ -1,0 +1,1 @@
+[This shows what the Pro Controller recieves from the switch and it is the first byte recieved](https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering/blob/master/bluetooth_hid_subcommands_notes.md#subcommand-0x41-set-6-axis-sensor-sensitivity)
