@@ -36,6 +36,11 @@ namespace Inputs {
 	// Timer to measure latency apparently
 	// Incremented every frame
 	uint8_t dataTimer = 0;
+	// Stick data
+	uint16_t leftStickX;
+	uint16_t leftStickY;
+	uint16_t rightStickX;
+	uint16_t rightStickY;
 	void getData(char* dataToReturn) {
 		// dataToReturn is the packet that will be sent
 		// Standard full mode: sends all inputs and A and G data
@@ -79,6 +84,24 @@ namespace Inputs {
 		thirdButtonData = SetBit(thirdButtonData, 0, L);
 		thirdButtonData = SetBit(thirdButtonData, 0, ZL);
 		dataToReturn[5] = thirdButtonData;
+		
+		// Add stick data
+		// Left
+		uint32_t combinedStickDataLeft = leftStickY << 12 | leftStickX;
+		unsigned char* combinedStickDataLeftValues = (unsigned char*) &combinedStickDataLeft;
+		dataToReturn[6] = combinedStickDataLeftValues[0];
+		dataToReturn[7] = combinedStickDataLeftValues[1];
+		dataToReturn[8] = combinedStickDataLeftValues[2];
+		// Right
+		uint32_t combinedStickDataRight = rightStickY << 12 | rightStickX;
+		unsigned char* combinedStickDataRightValues = (unsigned char*) &combinedStickDataRight;
+		dataToReturn[9] = combinedStickDataRightValues[0];
+		dataToReturn[10] = combinedStickDataRightValues[1];
+		dataToReturn[11] = combinedStickDataRightValues[2];
+		
+		// Vibrator data (I don't know what the heck this does)
+		// Just a hardcoded value
+		dataToReturn[12] = 0x0A;
 
 		// Increment timer
 		if (dataTimer == 255) {
