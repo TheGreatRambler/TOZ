@@ -13,7 +13,7 @@ namespace HID {
     // Also open in binary mode
     // C system calls need to be used because they are low level
     // 0666 is permission
-    hidgStreamFileNum = open("/dev/hidg0", O_RDWR, 0666);
+    hidgStreamFileNum = open("/dev/hidg0", O_RDWR | O_DIRECT | O_SYNC, 0666);
   }
   
   void Close() {
