@@ -57,7 +57,7 @@ int main()
 	uint8_t init_config[2048];
 	uint8_t* cp;
 
-	fd = open(USB_DEV, O_RDWR|O_SYNC);
+	fd = open(USB_DEV, O_RDWR | O_SYNC);
 
 	if (fd <= 0)
 	{
