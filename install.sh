@@ -5,4 +5,7 @@ echo "dtoverlay=dwc2" | sudo tee -a /boot/config.txt
 echo "dwc2" | sudo tee -a /etc/modules
 # Enable libcomposite driver
 sudo echo "libcomposite" | sudo tee -a /etc/modules
+# Enable GadgetFS
+systemctl enable gadgetfs.service
 # TODO: Add addGadget.sh to startup
+echo "Installed"
