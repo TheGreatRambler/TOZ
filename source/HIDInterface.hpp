@@ -24,6 +24,23 @@
 // This is a really importand constant, but it isn't included here for some reason
 #define USB_REQ_GET_REPORT 0x01
 
+struct hid_class_descriptor {
+  __u8 bDescriptorType;
+  __le16 wDescriptorLength;
+} __attribute__ ((packed));
+
+// Class used to define the HID information (descriptor)
+// It isn't built into GadgetFS
+struct hid_descriptor {
+  __u8 bLength;
+  __u8 bDescriptorType;
+  __le16 bcdHID;
+  __u8 bCountryCode;
+  __u8 bNumDescriptors;
+
+  struct hid_class_descriptor desc[1];
+} __attribute__ ((packed));
+
 // Don't know how to include this yet
 const char HIDReportDescriptor[] = {
 0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
