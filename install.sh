@@ -1,3 +1,5 @@
+# Make every shell file executable
+chmod +x update.sh
 # Update RasPi Kernel
 sudo BRANCH=next rpi-update
 # Enable USB gadget mode
