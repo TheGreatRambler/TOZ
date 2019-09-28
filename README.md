@@ -26,3 +26,9 @@ ping raspberrypi
 sudo apt-get update -y
 sudo apt-get upgrade -y
 ```
+7. Get GIT with this command:
+```
+sudo apt install git
+```
+8. Get the GIT repository with this command:
+```
