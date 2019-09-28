@@ -32,3 +32,5 @@ sudo apt install git
 ```
 8. Get the GIT repository with this command:
 ```
+git clone https://github.com/TheGreatRambler/TOZ.git
+```
