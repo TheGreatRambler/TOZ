@@ -21,16 +21,15 @@ network={
 ```
 ping raspberrypi
 ```
-6. Run some updates with the following commands:
-```
-sudo apt-get update -y
-sudo apt-get upgrade -y
-```
-7. Get GIT with this command:
+6. Get GIT with this command:
 ```
 sudo apt install git
 ```
-8. Get the GIT repository with this command:
+7. Get the GIT repository with this command:
 ```
 git clone https://github.com/TheGreatRambler/TOZ.git
+```
+8. Install
+```
+cd TOZ && chmod +x install.sh && ./install.sh
 ```
