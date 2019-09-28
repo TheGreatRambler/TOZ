@@ -17,7 +17,10 @@ network={
 }
 ```
 4. Eject the SD card and put it in the PI
-5. SSH into the PI using an IP scanner (Or however else you want to)
+5. SSH into the PI using this command to get the IP:
+```
+ping raspberrypi
+```
 6. Run some updates with the following commands:
 ```
 sudo apt-get update -y
