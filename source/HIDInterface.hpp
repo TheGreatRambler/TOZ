@@ -1,7 +1,6 @@
 #include "GadgetFSApi/usb-gadget.h"
 #include "config.h"
 #include <fcntl.h>
-#include <getopt.h>
 #include <linux/usb/ch9.h>
 #include <poll.h>
 #include <stdint.h>
@@ -38,7 +37,7 @@ struct hid_descriptor {
 } __attribute__((packed));
 
 // Don't know how to include this yet
-const char HIDReportDescriptor[] = {
+const char procontrollerHIDReportDescriptor[] = {
 	0x05, 0x01, // Usage Page (Generic Desktop Ctrls)
 	0x15, 0x00, // Logical Minimum (0)
 	0x09, 0x04, // Usage (Joystick)
@@ -147,8 +146,10 @@ static struct usb_gadget_string strings[] = {
 	},
 };
 
-static struct usb_gadget_strings gadget_strings = { .language = 0x0409, /* en-us */
-	.strings = strings };
+static struct usb_gadget_strings procontroller_strings = {
+	.language = 0x0409, /* en-us */
+	.strings = strings,
+};
 
 static struct usb_device_descriptor procontroller_device_descriptor = {
 	.bLength = sizeof(procontroller_device_descriptor),
@@ -194,15 +195,17 @@ static const struct usb_interface_descriptor procontroller_interface_descriptor 
 	.iInterface = 0x00, // No interface string
 };
 
-static const struct hid_descriptor procontroller_hid_descriptor = { .bLength = sizeof(loopback_hid_descriptor),
+static const struct hid_descriptor procontroller_hid_descriptor = {
+	.bLength = sizeof(loopback_hid_descriptor),
 	.bDescriptorType = USB_DT_WIRE_ADAPTER, // Don't really know why
 	.bcdHID = usb_gadget_cpu_to_le16(0x0111), // bcdHID 1.11
 	.bCountryCode = 0x00, // Don't know
 	.bNumDescriptors = 0x01, // I dunno
 	.desc = { {
 		.bDescriptorType = 0x22, // HID, I guess
-		.wDescriptorLength = usb_gadget_cpu_to_le16(0x00CB) // wDescriptorLength[0] 203
-	} } };
+		.wDescriptorLength = usb_gadget_cpu_to_le16(0x00CB) // Length of HID report descriptor 203
+	} },
+};
 
 static struct usb_endpoint_descriptor procontroller_ep_in_descriptor = {
 	.bLength = sizeof(procontroller_ep_in_descriptor), // Size of endpoint
@@ -224,7 +227,7 @@ static struct usb_endpoint_descriptor procontroller_ep_out_descriptor = {
 	.bInterval = 0x08, // I think it means 8 bytes per packet, I dunno, depends on device speed
 };
 
-static struct usb_descriptor_header* loopback_config[] = {
+static struct usb_descriptor_header* procontroller_config[] = {
 	(struct usb_descriptor_header*) &procontroller_config_descriptor,
 	(struct usb_descriptor_header*) &procontroller_interface_descriptor,
 	(struct usb_descriptor_header*) &procontroller_hid_descriptor,
@@ -238,10 +241,12 @@ static struct usb_descriptor_header* loopback_config[] = {
 static struct usb_gadget_endpoint *procontroller_ep_in_descriptor, *procontroller_ep_out_descriptor;
 static pthread_t loopback_thread;
 
-static void loopback_stop_endpoints(void* data) {
+static void procontroller_stop_endpoints(void* data) {
 	usb_gadget_endpoint_close(procontroller_ep_in_descriptor);
 	usb_gadget_endpoint_close(procontroller_ep_out_descriptor);
 }
+
+/*
 
 static void* loopback_loop(void* data) {
 	char buf[BUFSIZ];
@@ -270,7 +275,9 @@ static void* loopback_loop(void* data) {
 	}
 	pthread_cleanup_pop(1);
 }
+*/
 
+/*
 static void loopback_event_cb(usb_gadget_dev_handle* handle, struct usb_gadget_event* event, void* arg) {
 	switch (event->type) {
 		case USG_EVENT_ENDPOINT_ENABLE:
@@ -290,12 +297,18 @@ static void loopback_event_cb(usb_gadget_dev_handle* handle, struct usb_gadget_e
 				loopback_ep_in = NULL;
 			else if (event->u.number == (loopback_ep_out_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
 				loopback_ep_out = NULL;
-		case USG_EVENT_DISCONNECT: /* FALLTHROUGH */
+		case USG_EVENT_DISCONNECT: // FALLTHROUGH
 			if (loopback_thread)
 				pthread_cancel(loopback_thread);
 			break;
+		default:
+			return;
 	}
 }
+*/
+
+
+/*
 
 static char* program_name;
 
@@ -307,16 +320,34 @@ static void usage(FILE* out) {
 		"\t--help, -h\tShow this help\n",
 		program_name);
 }
+*/
 
 int main(int argc, char** argv) {
 	struct usb_gadget_device device = {
-		.device = &loopback_device_descriptor,
-		.config = loopback_config,
-		.hs_config = loopback_hs_config,
-		.strings = &loopback_strings,
+		.device = &procontroller_device_descriptor,
+		.config = procontroller_config,
+		//.hs_config = loopback_hs_config,
+		.strings = &procontroller_strings,
+		// HID report descriptor
+		.HIDreport = procontrollerHIDReportDescriptor,
 	};
+
 	usb_gadget_dev_handle* handle;
 	struct usb_gadget_endpoint* ep0;
+	int debug_level = 1;
+
+	// Open device
+	handle = usb_gadget_open(&device);
+	// Debug everything
+	usb_gadget_set_debug_level(handle, debug_level);
+	// Get first endpoint
+	ep0 = usb_gadget_endpoint(handle, 0);
+
+
+	// Close device
+	usb_gadget_close(handle);
+
+	/*
 	struct pollfd fds;
 	int vendor_id, product_id, c, debug_level = 0;
 	struct option long_options[] = { { "debug", 1, 0, 'd' }, { "help", 0, 0, 'h' }, { 0, 0, 0, 0 } };
@@ -367,6 +398,6 @@ int main(int argc, char** argv) {
 			usb_gadget_handle_control_event(handle);
 	}
 	usb_gadget_close(handle);
-
+	*/
 	return 0;
 }

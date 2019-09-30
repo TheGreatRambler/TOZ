@@ -71,6 +71,8 @@ struct usb_gadget_device {
 	struct usb_device_descriptor* device;
 	struct usb_descriptor_header **config, **hs_config;
 	struct usb_gadget_strings* strings;
+	// Added on
+	char* HIDreport;
 };
 
 struct usb_gadget_endpoint* usb_gadget_endpoint(usb_gadget_dev_handle*, int);
