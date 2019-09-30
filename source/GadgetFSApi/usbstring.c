@@ -7,29 +7,23 @@
  * (at your option) any later version.
  */
 
-#include <errno.h>
-#include <string.h>
 #include "config.h"
-#if HAVE_LINUX_USB_SUBDIR
-#include <linux/usb/ch9.h>
-#else
-#include <linux/usb_ch9.h>
-#endif
 #include "usb-gadget.h"
+#include <errno.h>
+#include <linux/usb/ch9.h>
+#include <string.h>
 
-static inline void put_unaligned_le16(uint16_t val, uint16_t *cp)
-{
-	uint8_t	*p = (void *)cp;
+static inline void put_unaligned_le16(uint16_t val, uint16_t* cp) {
+	uint8_t* p = (void*) cp;
 
 	*p++ = (uint8_t) val;
-	*p++ = (uint8_t) (val >> 8);
+	*p++ = (uint8_t)(val >> 8);
 }
 
-static int utf8_to_utf16le(const char *s, uint16_t *cp, unsigned len)
-{
-	int	count = 0;
-	uint8_t	c;
-	uint16_t	uchar;
+static int utf8_to_utf16le(const char* s, uint16_t* cp, unsigned len) {
+	int count = 0;
+	uint8_t c;
+	uint16_t uchar;
 
 	/* this insists on correct encodings, though not minimal ones.
 	 * BUT it currently rejects legit 4-byte UTF-8 code points,
@@ -48,8 +42,8 @@ static int utf8_to_utf16le(const char *s, uint16_t *cp, unsigned len)
 				c &= 0x3f;
 				uchar |= c;
 
-			// 3-byte sequence (most CJKV characters):
-			// zzzzyyyyyyxxxxxx = 1110zzzz 10yyyyyy 10xxxxxx
+				// 3-byte sequence (most CJKV characters):
+				// zzzzyyyyyyxxxxxx = 1110zzzz 10yyyyyy 10xxxxxx
 			} else if ((c & 0xf0) == 0xe0) {
 				uchar = (c & 0x0f) << 12;
 
@@ -69,17 +63,17 @@ static int utf8_to_utf16le(const char *s, uint16_t *cp, unsigned len)
 				if (0xd800 <= uchar && uchar <= 0xdfff)
 					goto fail;
 
-			// 4-byte sequence (surrogate pairs, currently rare):
-			// 11101110wwwwzzzzyy + 110111yyyyxxxxxx
-			//     = 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
-			// (uuuuu = wwww + 1)
-			// FIXME accept the surrogate code points (only)
+				// 4-byte sequence (surrogate pairs, currently rare):
+				// 11101110wwwwzzzzyy + 110111yyyyxxxxxx
+				//     = 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
+				// (uuuuu = wwww + 1)
+				// FIXME accept the surrogate code points (only)
 
 			} else
 				goto fail;
 		} else
 			uchar = c;
-		put_unaligned_le16 (uchar, cp++);
+		put_unaligned_le16(uchar, cp++);
 		count++;
 		len--;
 	}
@@ -90,7 +84,7 @@ fail:
 
 
 /**
- * usb_gadget_get_string - fill out a string descriptor 
+ * usb_gadget_get_string - fill out a string descriptor
  * @table: of c strings encoded using UTF-8
  * @id: string id, from low byte of wValue in get string descriptor
  * @buf: at least 256 bytes
@@ -107,18 +101,16 @@ fail:
  * the eighth bit set will be multibyte UTF-8 characters, not ISO-8859/1
  * characters.
  */
-int
-usb_gadget_get_string (struct usb_gadget_strings *table, int id, uint8_t *buf)
-{
-	struct usb_gadget_string	*s;
-	int			len;
+int usb_gadget_get_string(struct usb_gadget_strings* table, int id, uint8_t* buf) {
+	struct usb_gadget_string* s;
+	int len;
 
 	/* descriptor 0 has the language id */
 	if (id == 0) {
-		buf [0] = 4;
-		buf [1] = USB_DT_STRING;
-		buf [2] = (uint8_t) table->language;
-		buf [3] = (uint8_t) (table->language >> 8);
+		buf[0] = 4;
+		buf[1] = USB_DT_STRING;
+		buf[2] = (uint8_t) table->language;
+		buf[3] = (uint8_t)(table->language >> 8);
 		return 4;
 	}
 	for (s = table->strings; s && s->s; s++)
@@ -130,15 +122,14 @@ usb_gadget_get_string (struct usb_gadget_strings *table, int id, uint8_t *buf)
 		return -EINVAL;
 
 	/* string descriptors have length, tag, then UTF16-LE text */
-	len = strlen (s->s);
+	len = strlen(s->s);
 	if (len > 126)
 		len = 126;
-	memset (buf + 2, 0, 2 * len);	/* zero all the bytes */
-	len = utf8_to_utf16le(s->s, (uint16_t *)&buf[2], len);
+	memset(buf + 2, 0, 2 * len); /* zero all the bytes */
+	len = utf8_to_utf16le(s->s, (uint16_t*) &buf[2], len);
 	if (len < 0)
 		return -EINVAL;
-	buf [0] = (len + 1) * 2;
-	buf [1] = USB_DT_STRING;
-	return buf [0];
+	buf[0] = (len + 1) * 2;
+	buf[1] = USB_DT_STRING;
+	return buf[0];
 }
-

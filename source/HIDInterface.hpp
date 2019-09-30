@@ -1,16 +1,12 @@
+#include "GadgetFSApi/usb-gadget.h"
 #include "config.h"
 #include <fcntl.h>
 #include <getopt.h>
+#include <linux/usb/ch9.h>
 #include <poll.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#if HAVE_LINUX_USB_SUBDIR
-#include <linux/usb/ch9.h> // Contains constants relating to device creation
-#else
-#include <linux/usb_ch9.h>
-#endif
-#include "GadgetFSApi/usb-gadget.h"
 
 /* /dev/gadget/ep* doesn't support poll, we have to use an alternative
    approach. */

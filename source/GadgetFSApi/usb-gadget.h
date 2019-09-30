@@ -41,62 +41,50 @@
 #error "Unrecognized endianness"
 #endif
 
-struct usb_gadget_string
-{
-  uint8_t id;
-  const char *s;
+struct usb_gadget_string {
+	uint8_t id;
+	const char* s;
 };
 
-struct usb_gadget_strings
-{
-  uint16_t language;	/* 0x0409 for en-us */
-  struct usb_gadget_string *strings;
+struct usb_gadget_strings {
+	uint16_t language; /* 0x0409 for en-us */
+	struct usb_gadget_string* strings;
 };
 
-struct usb_gadget_endpoint
-{
-  char *name;
+struct usb_gadget_endpoint {
+	char* name;
 };
 
-enum usb_gadget_event_type {
-  USG_EVENT_ENDPOINT_ENABLE,
-  USG_EVENT_ENDPOINT_DISABLE,
-  USG_EVENT_CONNECT,
-  USG_EVENT_DISCONNECT,
-  USG_EVENT_SUSPEND
-};
+enum usb_gadget_event_type { USG_EVENT_ENDPOINT_ENABLE, USG_EVENT_ENDPOINT_DISABLE, USG_EVENT_CONNECT, USG_EVENT_DISCONNECT, USG_EVENT_SUSPEND };
 
-struct usb_gadget_event
-{
-  enum usb_gadget_event_type type;
-  union
-  {
-    int number;
-  } u;
+struct usb_gadget_event {
+	enum usb_gadget_event_type type;
+	union {
+		int number;
+	} u;
 };
 
 struct usb_gadget_dev_handle;
 typedef struct usb_gadget_dev_handle usb_gadget_dev_handle;
 
-struct usb_gadget_device
-{
-  struct usb_device_descriptor *device;
-  struct usb_descriptor_header **config, **hs_config;
-  struct usb_gadget_strings *strings;
+struct usb_gadget_device {
+	struct usb_device_descriptor* device;
+	struct usb_descriptor_header **config, **hs_config;
+	struct usb_gadget_strings* strings;
 };
 
-struct usb_gadget_endpoint *usb_gadget_endpoint (usb_gadget_dev_handle *, int);
-int usb_gadget_endpoint_close (struct usb_gadget_endpoint *);
-ssize_t usb_gadget_endpoint_write (struct usb_gadget_endpoint *, const void *, size_t, int);
-ssize_t usb_gadget_endpoint_read (struct usb_gadget_endpoint *, void *, size_t, int);
+struct usb_gadget_endpoint* usb_gadget_endpoint(usb_gadget_dev_handle*, int);
+int usb_gadget_endpoint_close(struct usb_gadget_endpoint*);
+ssize_t usb_gadget_endpoint_write(struct usb_gadget_endpoint*, const void*, size_t, int);
+ssize_t usb_gadget_endpoint_read(struct usb_gadget_endpoint*, void*, size_t, int);
 
-usb_gadget_dev_handle *usb_gadget_open (struct usb_gadget_device *);
-int usb_gadget_close (usb_gadget_dev_handle *);
+usb_gadget_dev_handle* usb_gadget_open(struct usb_gadget_device*);
+int usb_gadget_close(usb_gadget_dev_handle*);
 
-typedef void (*usb_gadget_event_cb) (usb_gadget_dev_handle *, struct usb_gadget_event *, void *);
-void usb_gadget_set_event_cb (usb_gadget_dev_handle *, usb_gadget_event_cb, void *);
-void usb_gadget_set_debug_level (usb_gadget_dev_handle *, int);
-int usb_gadget_handle_control_event (usb_gadget_dev_handle *);
-int usb_gadget_control_fd (usb_gadget_dev_handle *);
+typedef void (*usb_gadget_event_cb)(usb_gadget_dev_handle*, struct usb_gadget_event*, void*);
+void usb_gadget_set_event_cb(usb_gadget_dev_handle*, usb_gadget_event_cb, void*);
+void usb_gadget_set_debug_level(usb_gadget_dev_handle*, int);
+int usb_gadget_handle_control_event(usb_gadget_dev_handle*);
+int usb_gadget_control_fd(usb_gadget_dev_handle*);
 
 #endif
