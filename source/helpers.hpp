@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <cstdio>
 
 
 char CreateByteWithNibbles(int hi, int lo) {
@@ -14,9 +15,15 @@ char CreateByteWithNibbles(int hi, int lo) {
 	return byte;
 }
 
-char SetBit(char charToModify, int index, bool value) {
-	charToModify ^= (-(unsigned long) value ^ charToModify) & (1UL << index);
-	return charToModify;
+void SetBit(char &charToModify, int index, bool value) {
+	// Modify value by reference
+	if (value) {
+		// Set bit
+		charToModify |= 1UL << index;
+	} else {
+		// Clear bit
+		charToModify &= ~(1UL << index);
+	}
 }
 
 std::string GetStdoutFromCommand(std::string cmd) {
@@ -37,6 +44,7 @@ std::string GetStdoutFromCommand(std::string cmd) {
 	return data;
 }
 
+/*
 void WaitForDataToRead(int fd, unsigned char* data, int size) {
 	bool finished = false;
 	while (!finished) {
@@ -47,6 +55,7 @@ void WaitForDataToRead(int fd, unsigned char* data, int size) {
 		}
 	}
 }
+*/
 
 void printCharArray(const char* buffer, int length) {
 	// Print as hex
