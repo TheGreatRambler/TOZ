@@ -317,6 +317,7 @@ int main(int argc, char** argv) {
 		.strings = &procontroller_strings,
 		// HID report descriptor
 		.HIDreport = procontrollerHIDReportDescriptor,
+		HIDreportSize = 203,
 	};
 
 	struct pollfd fds;

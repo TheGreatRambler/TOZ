@@ -486,14 +486,11 @@ static void setup(struct usb_gadget_dev_handle* handle, struct usb_ctrlrequest* 
 						goto stall;
 					switch (value >> 8) {
 						case USB_DT_DEVICE:
-							// Write HID report
-							char* HIDReport = handle->device->HIDreport;
-							// Hardcoded
-							int HIDReportSize = 203;
-							if (HIDReportSize > length)
-								HIDReportSize = length;
-							// Write to host
-							write(handle->ep0->fd, HIDReport, HIDReportSize);
+							if (handle->device->HIDreportSize > length) {
+								handle->device->HIDreportSize = length;
+							}
+							// Write HID report to host
+							write(handle->ep0->fd, handle->device->HIDreport, handle->device->HIDreportSize);
 							break;
 						default:
 							goto stall;

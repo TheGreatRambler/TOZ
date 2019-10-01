@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ios>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
