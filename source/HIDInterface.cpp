@@ -310,7 +310,7 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 	}
 }
 
-int main(int argc, const char** argv) {
+int main(int argc, char* argv[]) {
 	struct usb_gadget_device device = {
 		.device = &procontroller_device_descriptor,
 		.config = procontroller_config,
@@ -330,7 +330,7 @@ int main(int argc, const char** argv) {
 	handle = usb_gadget_open(&device);
 	if (!handle) {
 		fprintf(stderr, "Couldn't open device.\n");
-		exit(1);
+		return 1;
 	}
 	// Debug everything
 	usb_gadget_set_debug_level(handle, debug_level);
