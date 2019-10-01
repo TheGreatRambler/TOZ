@@ -1,5 +1,3 @@
-#include "GadgetFSApi/usb-gadget.h"
-#include "config.h"
 #include <fcntl.h>
 #include <linux/usb/ch9.h>
 #include <poll.h>
@@ -10,6 +8,9 @@
 /* /dev/gadget/ep* doesn't support poll, we have to use an alternative
    approach. */
 #include <pthread.h>
+
+#include "GadgetFSApi/usb-gadget.h"
+#include "helpers.hpp"
 
 #define STRING_MANUFACTURER 25
 #define STRING_PRODUCT 45
@@ -238,7 +239,7 @@ static struct usb_descriptor_header* procontroller_config[] = {
 
 // High speed is not supported
 
-static struct usb_gadget_endpoint *procontroller_ep_in_descriptor, *procontroller_ep_out_descriptor;
+static struct usb_gadget_endpoint *procontroller_ep_in, *procontroller_ep_out;
 static pthread_t loopback_thread;
 
 static void procontroller_stop_endpoints(void* data) {
@@ -246,57 +247,59 @@ static void procontroller_stop_endpoints(void* data) {
 	usb_gadget_endpoint_close(procontroller_ep_out_descriptor);
 }
 
-/*
-
-static void* loopback_loop(void* data) {
-	char buf[BUFSIZ];
+static void* data_read_loop(void* data) {
+	// 64 is wMaxPacketSize, the max acceptable packet size
+	char buf[64];
 	int ret;
 
-	pthread_cleanup_push(loopback_stop_endpoints, NULL);
+	// Stop endpoints later
+	pthread_cleanup_push(procontroller_stop_endpoints, NULL);
 	while (1) {
 		int i;
 
+		// This is where the thread will cancel if need be
 		pthread_testcancel();
-		ret = usb_gadget_endpoint_read(loopback_ep_out, buf, 64, 100);
+
+		ret = usb_gadget_endpoint_read(procontroller_ep_out, buf, 64, 100);
 		if (ret < 0) {
 			perror("usb_gadget_endpoint_read");
 			break;
 		}
-		for (i = 0; i < ret / 2; i++) {
-			char c;
-			c = buf[i];
-			buf[i] = buf[ret - i - 1];
-			buf[ret - i - 1] = c;
-		}
-		if (usb_gadget_endpoint_write(loopback_ep_in, buf, ret, 100) < 0) {
+
+		// `buf` now represents our data and `ret` is the size of the data
+		printCharArray(buf, ret);
+
+		/* No need to write right now
+		if (usb_gadget_endpoint_write(procontroller_ep_in, buf, ret, 100) < 0) {
 			perror("usb_gadget_endpoint_write");
 			break;
 		}
+		*/
 	}
 	pthread_cleanup_pop(1);
 }
-*/
 
-/*
-static void loopback_event_cb(usb_gadget_dev_handle* handle, struct usb_gadget_event* event, void* arg) {
+
+static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gadget_event* event, void* arg) {
 	switch (event->type) {
 		case USG_EVENT_ENDPOINT_ENABLE:
-			if (event->u.number == (loopback_ep_in_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
-				loopback_ep_in = usb_gadget_endpoint(handle, event->u.number);
-			else if (event->u.number == (loopback_ep_out_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
-				loopback_ep_out = usb_gadget_endpoint(handle, event->u.number);
+			// Endpoints have started
+			if (event->u.number == (procontroller_ep_in_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
+				procontroller_ep_in = usb_gadget_endpoint(handle, event->u.number);
+			else if (event->u.number == (procontroller_ep_out_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
+				procontroller_ep_out = usb_gadget_endpoint(handle, event->u.number);
 
-			if (!loopback_ep_in || !loopback_ep_out)
+			if (!procontroller_ep_in || !procontroller_ep_out)
 				return;
 
-			if (pthread_create(&loopback_thread, 0, loopback_loop, NULL) != 0)
+			if (pthread_create(&loopback_thread, 0, data_read_loop, NULL) != 0)
 				perror("pthread_create");
 			break;
 		case USG_EVENT_ENDPOINT_DISABLE:
-			if (event->u.number == (loopback_ep_in_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
-				loopback_ep_in = NULL;
-			else if (event->u.number == (loopback_ep_out_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
-				loopback_ep_out = NULL;
+			if (event->u.number == (procontroller_ep_in_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
+				procontroller_ep_in = NULL;
+			else if (event->u.number == (procontroller_ep_out_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
+				procontroller_ep_out = NULL;
 		case USG_EVENT_DISCONNECT: // FALLTHROUGH
 			if (loopback_thread)
 				pthread_cancel(loopback_thread);
@@ -305,22 +308,6 @@ static void loopback_event_cb(usb_gadget_dev_handle* handle, struct usb_gadget_e
 			return;
 	}
 }
-*/
-
-
-/*
-
-static char* program_name;
-
-static void usage(FILE* out) {
-	fprintf(out,
-		"Usage: %s [OPTIONS] VEND:PROD\n"
-		"Options are:\n"
-		"\t--debug=LEVEL, -d\tSpecify debug level\n"
-		"\t--help, -h\tShow this help\n",
-		program_name);
-}
-*/
 
 int main(int argc, char** argv) {
 	struct usb_gadget_device device = {
@@ -332,61 +319,23 @@ int main(int argc, char** argv) {
 		.HIDreport = procontrollerHIDReportDescriptor,
 	};
 
+	struct pollfd fds;
 	usb_gadget_dev_handle* handle;
 	struct usb_gadget_endpoint* ep0;
 	int debug_level = 1;
 
 	// Open device
 	handle = usb_gadget_open(&device);
+	if (!handle) {
+		fprintf(stderr, "Couldn't open device.\n");
+		exit(1);
+	}
 	// Debug everything
 	usb_gadget_set_debug_level(handle, debug_level);
 	// Get first endpoint
 	ep0 = usb_gadget_endpoint(handle, 0);
 
-
-	// Close device
-	usb_gadget_close(handle);
-
-	/*
-	struct pollfd fds;
-	int vendor_id, product_id, c, debug_level = 0;
-	struct option long_options[] = { { "debug", 1, 0, 'd' }, { "help", 0, 0, 'h' }, { 0, 0, 0, 0 } };
-	program_name = argv[0];
-
-	while (1) {
-		int option_index = 0;
-
-		c = getopt_long(argc, argv, "hd:", long_options, &option_index);
-		if (c == -1)
-			break;
-		switch (c) {
-			case 'd':
-				debug_level = atoi(optarg);
-				break;
-			case 'h':
-				usage(stdout);
-				exit(0);
-			default:
-				usage(stderr);
-				exit(1);
-		}
-	}
-
-	if ((argc - optind) != 1 || sscanf(argv[optind], "%X:%X", &vendor_id, &product_id) != 2) {
-		usage(stderr);
-		exit(1);
-	}
-
-	loopback_device_descriptor.idVendor = vendor_id;
-	loopback_device_descriptor.idProduct = product_id;
-	handle = usb_gadget_open(&device);
-	if (!handle) {
-		fprintf(stderr, "Couldn't open device.\n");
-		exit(1);
-	}
-	usb_gadget_set_event_cb(handle, loopback_event_cb, NULL);
-	usb_gadget_set_debug_level(handle, debug_level);
-	ep0 = usb_gadget_endpoint(handle, 0);
+	usb_gadget_set_event_cb(handle, procontroller_event_cb, NULL);
 	fds.fd = usb_gadget_control_fd(handle);
 	fds.events = POLLIN;
 	while (1) {
@@ -397,7 +346,9 @@ int main(int argc, char** argv) {
 		if (fds.revents & POLLIN)
 			usb_gadget_handle_control_event(handle);
 	}
+
+	// Close device
 	usb_gadget_close(handle);
-	*/
+
 	return 0;
 }

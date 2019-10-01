@@ -45,3 +45,13 @@ void WaitForDataToRead(int fd, unsigned char* data, int size) {
 		}
 	}
 }
+
+void printCharArray(const char* buffer, int length) {
+	// Print as hex
+	for (int i = 0; i < length; i++) {
+		std::cout << "0x"; // Make it pretty
+		std::cout << std::hex << (int) buffer[i]; // Print hex
+		std::cout << " "; // Just a space
+	}
+	std::cout << std::endl; // Print endline
+}
