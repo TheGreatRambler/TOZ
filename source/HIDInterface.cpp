@@ -310,7 +310,7 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 	}
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, const char* argv[]) {
 	struct usb_gadget_device device = {
 		.device = &procontroller_device_descriptor,
 		.config = procontroller_config,
