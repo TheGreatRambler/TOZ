@@ -38,7 +38,7 @@ struct hid_descriptor {
 } __attribute__((packed));
 
 // Don't know how to include this yet
-const char procontrollerHIDReportDescriptor[] = {
+char procontrollerHIDReportDescriptor[] = {
 	0x05, 0x01, // Usage Page (Generic Desktop Ctrls)
 	0x15, 0x00, // Logical Minimum (0)
 	0x09, 0x04, // Usage (Joystick)
@@ -318,7 +318,7 @@ int main(int argc, char* argv[]) {
 		//.hs_config = loopback_hs_config,
 		.strings = &procontroller_strings,
 		// HID report descriptor
-		.HIDreport = &procontrollerHIDReportDescriptor,
+		.HIDreport = procontrollerHIDReportDescriptor,
 		.HIDreportSize = 203,
 	};
 
