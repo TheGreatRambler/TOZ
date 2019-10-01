@@ -72,7 +72,7 @@ struct usb_gadget_device {
 	struct usb_descriptor_header **config, **hs_config;
 	struct usb_gadget_strings* strings;
 	// Added on
-	char* HIDreport;
+	const char* HIDreport;
 	int HIDreportSize;
 };
 

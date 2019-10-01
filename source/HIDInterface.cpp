@@ -310,14 +310,15 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 	}
 }
 
-int main(/* int argc, char* argv[] */) {
+int main(int argc, char* argv[]) {
+
 	struct usb_gadget_device device = {
 		.device = &procontroller_device_descriptor,
 		.config = procontroller_config,
 		//.hs_config = loopback_hs_config,
 		.strings = &procontroller_strings,
 		// HID report descriptor
-		.HIDreport = procontrollerHIDReportDescriptor,
+		.HIDreport = &procontrollerHIDReportDescriptor,
 		.HIDreportSize = 203,
 	};
 
