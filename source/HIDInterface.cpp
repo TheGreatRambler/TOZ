@@ -197,7 +197,7 @@ static const struct usb_interface_descriptor procontroller_interface_descriptor 
 };
 
 static const struct hid_descriptor procontroller_hid_descriptor = {
-	.bLength = sizeof(loopback_hid_descriptor),
+	.bLength = sizeof(procontroller_hid_descriptor),
 	.bDescriptorType = USB_DT_WIRE_ADAPTER, // Don't really know why
 	.bcdHID = usb_gadget_cpu_to_le16(0x0111), // bcdHID 1.11
 	.bCountryCode = 0x00, // Don't know
@@ -243,11 +243,11 @@ static struct usb_gadget_endpoint *procontroller_ep_in, *procontroller_ep_out;
 static pthread_t loopback_thread;
 
 static void procontroller_stop_endpoints(void* data) {
-	usb_gadget_endpoint_close(procontroller_ep_in_descriptor);
-	usb_gadget_endpoint_close(procontroller_ep_out_descriptor);
+	usb_gadget_endpoint_close(procontroller_ep_in);
+	usb_gadget_endpoint_close(procontroller_ep_out);
 }
 
-static void* data_read_loop(void* data) {
+static void data_read_loop(void* data) {
 	// 64 is wMaxPacketSize, the max acceptable packet size
 	char buf[64];
 	int ret;
@@ -317,7 +317,7 @@ int main(int argc, char** argv) {
 		.strings = &procontroller_strings,
 		// HID report descriptor
 		.HIDreport = procontrollerHIDReportDescriptor,
-		HIDreportSize = 203,
+		.HIDreportSize = 203,
 	};
 
 	struct pollfd fds;

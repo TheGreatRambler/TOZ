@@ -11,6 +11,7 @@ char CreateByteWithNibbles(int hi, int lo) {
 	char byte = 0;
 	byte = (byte & 0xF0) | (lo & 0xF); // write low nibble
 	byte = (byte & 0x0F) | ((hi & 0xF) << 4); // write high nibble
+	return byte;
 }
 
 char SetBit(char charToModify, int index, bool value) {
