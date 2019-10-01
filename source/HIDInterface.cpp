@@ -247,7 +247,8 @@ static void procontroller_stop_endpoints(void* data) {
 	usb_gadget_endpoint_close(procontroller_ep_out);
 }
 
-static void data_read_loop(void* data) {
+static void* data_read_loop(void* data) {
+	// Don't know why it is a void pointer
 	// 64 is wMaxPacketSize, the max acceptable packet size
 	char buf[64];
 	int ret;
