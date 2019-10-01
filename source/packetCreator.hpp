@@ -53,58 +53,58 @@ namespace Inputs {
 		dataToReturn[2] = CreateByteWithNibbles(8, 0);
 		// Button data
 		char firstButtonData = 0;
-		firstButtonData = SetBit(firstButtonData, 0, Y);
-		firstButtonData = SetBit(firstButtonData, 1, X);
-		firstButtonData = SetBit(firstButtonData, 2, B);
-		firstButtonData = SetBit(firstButtonData, 3, A);
-		firstButtonData = SetBit(firstButtonData, 4, SR);
-		firstButtonData = SetBit(firstButtonData, 5, SL);
-		firstButtonData = SetBit(firstButtonData, 6, R);
-		firstButtonData = SetBit(firstButtonData, 7, ZR);
+		SetBit(firstButtonData, 0, Y);
+		SetBit(firstButtonData, 1, X);
+		SetBit(firstButtonData, 2, B);
+		SetBit(firstButtonData, 3, A);
+		SetBit(firstButtonData, 4, SR);
+		SetBit(firstButtonData, 5, SL);
+		SetBit(firstButtonData, 6, R);
+		SetBit(firstButtonData, 7, ZR);
 		dataToReturn[3] = firstButtonData;
 
 		char secondButtonData = 0;
-		secondButtonData = SetBit(secondButtonData, 0, MINUS);
-		secondButtonData = SetBit(secondButtonData, 1, PLUS);
-		secondButtonData = SetBit(secondButtonData, 2, RSTICK);
-		secondButtonData = SetBit(secondButtonData, 3, LSTICK);
-		secondButtonData = SetBit(secondButtonData, 4, HOME);
-		secondButtonData = SetBit(secondButtonData, 5, CAPTURE);
-		secondButtonData = SetBit(secondButtonData, 6, 0); // Garbage bit
-		secondButtonData = SetBit(secondButtonData, 7, 0); // Charging grip (?)
+		SetBit(secondButtonData, 0, MINUS);
+		SetBit(secondButtonData, 1, PLUS);
+		SetBit(secondButtonData, 2, RSTICK);
+		SetBit(secondButtonData, 3, LSTICK);
+		SetBit(secondButtonData, 4, HOME);
+		SetBit(secondButtonData, 5, CAPTURE);
+		SetBit(secondButtonData, 6, 0); // Garbage bit
+		SetBit(secondButtonData, 7, 0); // Charging grip (?)
 		dataToReturn[4] = secondButtonData;
 
 		char thirdButtonData = 0;
-		thirdButtonData = SetBit(thirdButtonData, 0, DDOWN);
-		thirdButtonData = SetBit(thirdButtonData, 0, DUP);
-		thirdButtonData = SetBit(thirdButtonData, 0, DRIGHT);
-		thirdButtonData = SetBit(thirdButtonData, 0, DLEFT);
-		thirdButtonData = SetBit(thirdButtonData, 0, SR);
-		thirdButtonData = SetBit(thirdButtonData, 0, SL);
-		thirdButtonData = SetBit(thirdButtonData, 0, L);
-		thirdButtonData = SetBit(thirdButtonData, 0, ZL);
+		SetBit(thirdButtonData, 0, DDOWN);
+		SetBit(thirdButtonData, 1, DUP);
+		SetBit(thirdButtonData, 2, DRIGHT);
+		SetBit(thirdButtonData, 3, DLEFT);
+		SetBit(thirdButtonData, 4, SR);
+		SetBit(thirdButtonData, 5, SL);
+		SetBit(thirdButtonData, 6, L);
+		SetBit(thirdButtonData, 7, ZL);
 		dataToReturn[5] = thirdButtonData;
 		
 		// Add stick data
 		// Left
 		uint32_t combinedStickDataLeft = leftStickY << 12 | leftStickX;
 		unsigned char* combinedStickDataLeftValues = (unsigned char*) &combinedStickDataLeft;
-		dataToReturn[6] = combinedStickDataLeftValues[0];
-		dataToReturn[7] = combinedStickDataLeftValues[1];
-		dataToReturn[8] = combinedStickDataLeftValues[2];
+		dataToReturn[6] = combinedStickDataLeftValues[1];
+		dataToReturn[7] = combinedStickDataLeftValues[2];
+		dataToReturn[8] = combinedStickDataLeftValues[3];
 		// Right
 		uint32_t combinedStickDataRight = rightStickY << 12 | rightStickX;
 		unsigned char* combinedStickDataRightValues = (unsigned char*) &combinedStickDataRight;
-		dataToReturn[9] = combinedStickDataRightValues[0];
-		dataToReturn[10] = combinedStickDataRightValues[1];
-		dataToReturn[11] = combinedStickDataRightValues[2];
+		dataToReturn[9] = combinedStickDataRightValues[1];
+		dataToReturn[10] = combinedStickDataRightValues[2];
+		dataToReturn[11] = combinedStickDataRightValues[3];
 		
 		// Vibrator data (I don't know what the heck this does)
 		// Just a hardcoded value
 		dataToReturn[12] = 0x0A;
 
 		// Increment timer
-		if (dataTimer == 255) {
+		if (dataTimer == 0xFF) {
 			// Loop to beginning
 			dataTimer = 0;
 		} else {
