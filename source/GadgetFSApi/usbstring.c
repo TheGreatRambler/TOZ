@@ -7,7 +7,6 @@
  * (at your option) any later version.
  */
 
-#include "config.h"
 #include "usb-gadget.h"
 #include <errno.h>
 #include <linux/usb/ch9.h>
