@@ -6,11 +6,11 @@ SRC=$(wildcard source/*.cpp source/GadgetFSApi/*.cpp)
 OBJ=$(SRC:%.cpp=%.o)
 
 all: $(OBJ)
-    $(CXX) -o $(BIN) $^
+	$(CXX) -o $(BIN) $^
 
 %.o: %.c
-    $(CXX) $@ -c $<
+	$(CXX) $@ -c $<
 
 clean:
-    rm -f *.o
-    rm $(BIN)
+	rm -f *.o
+	rm $(BIN)
