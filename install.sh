@@ -16,5 +16,5 @@ sudo echo "libcomposite" | sudo tee -a /etc/modules
 systemctl enable gadgetfs.service
 # TODO: Add addGadget.sh to startup
 # Build program
-env CXX="gcc" make
+make
 echo "Installed"
