@@ -7,8 +7,8 @@ SRC_DIRS ?= ./source
 CFLAGS := -std=c11
 # C++ flags
 CXXFLAGS := -std=c++11
-# C/C++ flags (no -pendantic)
-CPPFLAGS := -g -Wall -Wextra
+# C/C++ flags (no -pendantic) (-pthread needed for threads)
+CPPFLAGS := -g -Wall -Wextra -lpthread
 
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
