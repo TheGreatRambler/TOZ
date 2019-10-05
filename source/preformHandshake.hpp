@@ -16,7 +16,7 @@ void startHandshake(int hidFileNum) {
 	// Wait for next data
 	unsigned char next1[12];
 	unsigned char dataToExpect1[12] = { 0x19, 0x01, 0x03, 0x07, 0x00, 0x91, 0x01, 0x00, 0x00, 0x00, 0x00, 0x24 };
-	WaitForDataToRead(hidFileNum, next1, 12);
+	// WaitForDataToRead(hidFileNum, next1, 12);
 
 	if (memcmp(next1, dataToExpect1, 12) != 0) {
 		// Wrong response
@@ -30,5 +30,4 @@ void startHandshake(int hidFileNum) {
 	std::sscanf(macAdress.c_str(), "%02x:%02x:%02x:%02x:%02x:%02x", &macBytes[0], &macBytes[1], &macBytes[2], &macBytes[3], &macBytes[4], &macBytes[5]);
 
 	// Need to send MAC address
-	
 }

@@ -84,7 +84,7 @@ namespace Inputs {
 		SetBit(thirdButtonData, 6, L);
 		SetBit(thirdButtonData, 7, ZL);
 		dataToReturn[5] = thirdButtonData;
-		
+
 		// Add stick data
 		// Left
 		uint32_t combinedStickDataLeft = leftStickY << 12 | leftStickX;
@@ -98,7 +98,7 @@ namespace Inputs {
 		dataToReturn[9] = combinedStickDataRightValues[1];
 		dataToReturn[10] = combinedStickDataRightValues[2];
 		dataToReturn[11] = combinedStickDataRightValues[3];
-		
+
 		// Vibrator data (I don't know what the heck this does)
 		// Just a hardcoded value
 		dataToReturn[12] = 0x0A;

@@ -9,7 +9,11 @@
    approach. */
 #include <pthread.h>
 
+extern "C" {
+// Needed to include C header files
 #include "GadgetFSApi/usb-gadget.h"
+}
+
 #include "helpers.hpp"
 
 #define STRING_MANUFACTURER 25

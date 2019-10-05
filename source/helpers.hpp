@@ -1,11 +1,11 @@
 #pragma once
 
+#include <cstdio>
 #include <ios>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <cstdio>
 
 
 char CreateByteWithNibbles(int hi, int lo) {
@@ -15,7 +15,7 @@ char CreateByteWithNibbles(int hi, int lo) {
 	return byte;
 }
 
-void SetBit(char &charToModify, int index, bool value) {
+void SetBit(char& charToModify, int index, bool value) {
 	// Modify value by reference
 	if (value) {
 		// Set bit
