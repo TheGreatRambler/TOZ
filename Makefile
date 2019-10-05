@@ -1,4 +1,5 @@
-TARGET_EXEC ?= TOZ.out
+# No extension for the executable
+TARGET_EXEC ?= TOZ
 
 BUILD_DIR ?= ./build
 SRC_DIRS ?= ./source
