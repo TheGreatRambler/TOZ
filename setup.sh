@@ -1,5 +1,6 @@
 # Enable GadgetFS
-modprobe gadgetfs
-modprobe libcomposite
-mkdir /dev/gadget
-mount -t gadgetfs gadgetfs /dev/gadget
+sudo modprobe dwc2
+sudo modprobe gadgetfs
+
+sudo mkdir /dev/gadget
+sudo mount -t gadgetfs gadgetfs /dev/gadget
