@@ -1,6 +1,10 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
 #include "packetCreator.hpp"
 
-public class TASProcess {
+public class TASProcess_Switch {
 private:
   std::string currentFilename;
   std::ifstream currentStream;
