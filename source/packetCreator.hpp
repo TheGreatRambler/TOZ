@@ -4,8 +4,9 @@
 
 #include "helpers.hpp"
 
-namespace Inputs {
+public class Inputs {
 	// Buttons
+	private;
 	bool A;
 	bool B;
 	bool X;
@@ -41,6 +42,8 @@ namespace Inputs {
 	uint16_t leftStickY;
 	uint16_t rightStickX;
 	uint16_t rightStickY;
+	public;
+	Inputs() {}
 	void getData(char* dataToReturn) {
 		// dataToReturn is the packet that will be sent
 		// Standard full mode: sends all inputs and A and G data
