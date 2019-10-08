@@ -5,7 +5,7 @@ BUILD_DIR ?= ./build
 SRC_DIRS ?= ./source
 
 # C flags
-CFLAGS := -std=c11
+CFLAGS := -std=gnu11
 # C++ flags
 CXXFLAGS := -std=c++11
 # C/C++ flags (no -pendantic)
