@@ -4,9 +4,9 @@
 
 #include "helpers.hpp"
 
-public class Inputs {
+class Inputs {
 	// Buttons
-	private;
+private:
 	bool A;
 	bool B;
 	bool X;
@@ -44,8 +44,15 @@ public class Inputs {
 	uint16_t leftStickY;
 	uint16_t rightStickX;
 	uint16_t rightStickY;
-	public;
-	Inputs() {}
+
+public:
+	Inputs() {
+	}
+
+	void setRunThisFrame(bool run) {
+		runThisFrame = run;
+	}
+
 	void getData(char* dataToReturn) {
 		// dataToReturn is the packet that will be sent
 		// Standard full mode: sends all inputs and A and G data
@@ -116,11 +123,11 @@ public class Inputs {
 			dataTimer++;
 		}
 	}
-	
+
 	void run() {
 		if (runThisFrame) {
 			// Set false for later
 			runThisFrame = false;
 		}
 	}
-}
+};
