@@ -37,6 +37,8 @@ public class Inputs {
 	// Timer to measure latency apparently
 	// Incremented every frame
 	uint8_t dataTimer = 0;
+	// Determine wether it needs to run this frame
+	bool runThisFrame = false;
 	// Stick data
 	uint16_t leftStickX;
 	uint16_t leftStickY;
@@ -112,6 +114,13 @@ public class Inputs {
 			dataTimer = 0;
 		} else {
 			dataTimer++;
+		}
+	}
+	
+	void run() {
+		if (runThisFrame) {
+			// Set false for later
+			runThisFrame = false;
 		}
 	}
 }
