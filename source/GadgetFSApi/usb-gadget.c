@@ -328,26 +328,34 @@ usb_gadget_dev_handle* usb_gadget_open(struct usb_gadget_device* device) {
 	struct usb_gadget_dev_handle* handle;
 
 	if (!device || !device->device || !device->config) {
+		printf("Please include device handle.\n");
 		errno = EINVAL;
 		return NULL;
 	}
 
 	handle = malloc(sizeof(*handle));
-	if (!handle)
+	if (!handle) {
+		printf("No handle.\n");
 		goto error;
+	}
 	handle->device = device;
 
 	handle->ep0 = find_ep0(handle);
-	if (!handle->ep0)
+	if (!handle->ep0) {
+		printf("No endpoint 0.\n");
 		goto error;
+	}
 
-	if (open_ep0(handle) < 0)
+	if (open_ep0(handle) < 0) {
+		printf("Couldn't open endpoint 0.\n");
 		goto error;
+	}
 
 	usb_gadget_init_list_head(&handle->ep_list);
 	return handle;
 
 error:
+	printf("Errored when opening device.\n");
 	if (handle->ep0) {
 		close_ep(handle->ep0);
 		free(handle->ep0);
