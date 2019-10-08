@@ -1,2 +1,3 @@
-# Get the new changes from GIT
+# Get the new changes from GIT and ignore merge problems
+git reset --hard
 git pull origin master
