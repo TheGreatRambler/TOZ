@@ -20,8 +20,6 @@
 #define __LIST_H
 
 #include <stddef.h> /* offsetof */
-#include <sys/types.h>
-#define offsetof(TYPE, MEMBER) ((size_t) & ((TYPE*) 0)->MEMBER)
 
 struct usb_gadget_list_head {
 	struct usb_gadget_list_head *next, *prev;
@@ -29,10 +27,9 @@ struct usb_gadget_list_head {
 
 /* copied and renamed from linux/include/linux/kernel.h */
 // clang-format off
-#define usb_gadget_container_of(ptr, type, member) ({ \
-		const typeof(((type*) 0)->member)* __mptr = (ptr); \
-		(type*) ((char*) __mptr - offsetof(type, member)); \
-	})
+#define usb_gadget_container_of(ptr, type, member) \
+   ((type *) ((char *) (ptr) - offsetof(type, member) + \
+              (&((type *) 0)->member == (ptr)) * 0))
 // clang-format on
 
 #define usb_gadget_list_entry(ptr, type, member) usb_gadget_container_of(ptr, type, member)
