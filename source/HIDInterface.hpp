@@ -317,8 +317,9 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 }
 
 bool alreadyMounted() {
-	struct stat buffer;   
-	return (stat ("/dev/gadget".c_str(), &buffer) == 0); 
+	struct stat buffer;
+	const std::string name = "/dev/gadget";   
+	return (stat (name.c_str(), &buffer) == 0); 
 }
 
 void StartGadget() {
