@@ -364,6 +364,4 @@ void StartGadget() {
 
 	// Close device
 	usb_gadget_close(handle);
-
-	return 0;
 }
