@@ -112,10 +112,14 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		struct dirent* result;
 		int i;
 
-		if (readdir_r(dirp, entry, &result) < 0)
+		if (readdir_r(dirp, entry, &result) < 0) {
+			printf("ERROR: readdir_r < 0 (???)");
 			break;
-		if (!result)
+		}
+		if (!result) {
+			printf("ERROR: NO RESULT");
 			break;
+		}
 		for (i = 0; table[i] && strcmp(table[i], entry->d_name); i++)
 			;
 		if (table[i]) {
@@ -129,7 +133,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 			if (!ep0->ep.name) {
 				free(ep0);
 				ep0 = NULL;
-				printf("!ep0->ep.name triggered... What does this mean?");
+				printf("ERROR: Name of Endpoint not set");
 				break;
 			}
 			ep0->fd = -1;
