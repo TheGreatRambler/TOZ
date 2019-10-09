@@ -325,7 +325,7 @@ bool alreadyMounted() {
 void StartGadget() {
 
 	// Create gadgetfs in memory
-	if(!alreadyMounted())) {
+	if(!alreadyMounted()) {
 		system("sudo modprobe dwc2");
 		system("sudo modprobe gadgetfs");
 		system("sudo mkdir /dev/gadget");
