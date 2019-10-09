@@ -316,7 +316,7 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 	}
 }
 
-void startGadget() {
+void StartGadget() {
 
 	// Create gadgetfs in memory
 	system("sudo modprobe dwc2");

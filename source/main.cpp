@@ -1,6 +1,8 @@
 #include "thirdParty/CLI11.hpp"
 #include "thirdParty/json.hpp"
 
+#include "HIDInterface.hpp"
+
 int main(int argc, char** argv) {
 	CLI::App app { "A TAS program that can be run on unmodified hardware from a Raspi Zero" };
 
@@ -11,7 +13,8 @@ int main(int argc, char** argv) {
 		// Run update
 		system("git reset --hard");
 		system("git pull origin master");
-	} else if (action == "install") {
+	} else if (action == "run") {
+		StartGadget();
 	}
 
 	CLI11_PARSE(app, argc, argv);
