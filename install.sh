@@ -5,9 +5,13 @@ chmod +x update.sh
 # Get some updates
 sudo apt-get update -y
 sudo apt-get upgrade -y
+# install wiringpi just in case it isnt already installed
+sudo apt-get install wiringpi
 # Enable USB gadget mode
 echo "dtoverlay=dwc2" | sudo tee -a /boot/config.txt
 # TODO: Add addGadget.sh to startup
 # Build program
-# make
+# make the code
+make
+# it is done
 echo "Installed"
