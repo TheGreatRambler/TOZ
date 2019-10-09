@@ -113,11 +113,11 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		int i;
 
 		if (readdir_r(dirp, entry, &result) < 0) {
-			printf("ERROR: readdir_r < 0 (???)");
+			printf("ERROR: readdir_r < 0 (???)\n");
 			break;
 		}
 		if (!result) {
-			printf("ERROR: NO RESULT");
+			printf("ERROR: NO RESULT\n");
 			break;
 		}
 		for (i = 0; table[i] && strcmp(table[i], entry->d_name); i++)
@@ -125,7 +125,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		if (table[i]) {
 			ep0 = malloc(sizeof(*ep0));
 			if (!ep0) {
-				printf("ERROR: NO VIRTUAL RAM");
+				printf("ERROR: NO VIRTUAL RAM\n");
 				break;
 			}
 			usb_gadget_init_list_head(&ep0->ep_list);
@@ -133,7 +133,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 			if (!ep0->ep.name) {
 				free(ep0);
 				ep0 = NULL;
-				printf("ERROR: Name of Endpoint not set");
+				printf("ERROR: Name of Endpoint not set\n");
 				break;
 			}
 			ep0->fd = -1;
