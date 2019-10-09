@@ -343,7 +343,7 @@ void StartGadget() {
 	handle = usb_gadget_open(&device);
 	if (!handle) {
 		fprintf(stderr, "Couldn't open device.\n");
-		return 1;
+		return;
 	}
 	// Debug everything
 	usb_gadget_set_debug_level(handle, debug_level);
