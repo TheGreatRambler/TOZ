@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <vector>
 
 
 char CreateByteWithNibbles(int hi, int lo) {
@@ -65,4 +66,19 @@ void printCharArray(const char* buffer, int length) {
 		std::cout << " "; // Just a space
 	}
 	std::cout << std::endl; // Print endline
+}
+
+std::vector<std::string> SplitString(const std::string& str, const std::string& delim) {
+	std::vector<std::string> tokens;
+	size_t prev = 0, pos = 0;
+	do {
+		pos = str.find(delim, prev);
+		if (pos == std::string::npos)
+			pos = str.length();
+		std::string token = str.substr(prev, pos - prev);
+		if (!token.empty())
+			tokens.push_back(token);
+		prev = pos + delim.length();
+	} while (pos < str.length() && prev < str.length());
+	return tokens;
 }

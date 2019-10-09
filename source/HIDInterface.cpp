@@ -316,6 +316,12 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 
 int main(int argc, char* argv[]) {
 
+	// Create gadgetfs in memory
+	system("sudo modprobe dwc2");
+	system("sudo modprobe gadgetfs");
+	system("sudo mkdir /dev/gadget");
+	system("sudo mount -t gadgetfs gadgetfs /dev/gadget");
+
 	struct usb_gadget_device device = {
 		.device = &procontroller_device_descriptor,
 		.config = procontroller_config,
