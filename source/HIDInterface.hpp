@@ -1,3 +1,5 @@
+#pragma once
+
 #include <fcntl.h>
 #include <linux/usb/ch9.h>
 #include <poll.h>
@@ -11,7 +13,7 @@
 
 extern "C" {
 // Needed to include C header files
-#include "GadgetFSApi/usb-gadget.h"
+#include "thirdParty/GadgetFSApi/usb-gadget.h"
 }
 
 #include "helpers.hpp"
@@ -314,7 +316,7 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 	}
 }
 
-int main(int argc, char* argv[]) {
+void startGadget() {
 
 	// Create gadgetfs in memory
 	system("sudo modprobe dwc2");
