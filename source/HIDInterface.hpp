@@ -6,7 +6,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <experimental/filesystem>
 
 /* /dev/gadget/ep* doesn't support poll, we have to use an alternative
    approach. */
@@ -317,10 +316,15 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 	}
 }
 
+bool alreadyMounted() {
+	struct stat buffer;   
+	return (stat ("/dev/gadget".c_str(), &buffer) == 0); 
+}
+
 void StartGadget() {
 
 	// Create gadgetfs in memory
-	if(!(std::filesystem::exists("/dev/gadget"))) {
+	if(!alreadyMounted())) {
 		system("sudo modprobe dwc2");
 		system("sudo modprobe gadgetfs");
 		system("sudo mkdir /dev/gadget");
