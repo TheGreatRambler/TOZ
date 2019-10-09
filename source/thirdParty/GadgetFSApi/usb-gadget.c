@@ -120,13 +120,16 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 			;
 		if (table[i]) {
 			ep0 = malloc(sizeof(*ep0));
-			if (!ep0)
+			if (!ep0) {
+				printf("ERROR: NO VIRTUAL RAM");
 				break;
+			}
 			usb_gadget_init_list_head(&ep0->ep_list);
 			ep0->ep.name = strdup(table[i]);
 			if (!ep0->ep.name) {
 				free(ep0);
 				ep0 = NULL;
+				printf("!ep0->ep.name triggered... What does this mean?");
 				break;
 			}
 			ep0->fd = -1;
