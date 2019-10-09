@@ -96,12 +96,15 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 	struct _usb_gadget_endpoint* ep0 = NULL;
 
 	dirp = opendir(GADGETFS_DEVICE_PATH);
-	if (!dirp)
+	if (!dirp) {
+		printf("ERROR: NoDirp\n");
 		return NULL;
+	}
 
 	entry = malloc(offsetof(struct dirent, d_name) + pathconf(GADGETFS_DEVICE_PATH, _PC_NAME_MAX) + 1);
 	if (!entry) {
 		closedir(dirp);
+		printf("ERROR: NoEntry\n");
 		return NULL;
 	}
 
