@@ -4,15 +4,16 @@
 #include <string.h>
 #include <string>
 
-#include "packetCreator.hpp"
+#include "PacketCreator_Switch.hpp"
 
 class TASProcess_Switch {
 private:
 	std::string currentFilename;
-	std::ifstream* currentStream;
+	std::ifstream currentStream;
 	bool fileIsCurrentlyDone = false;
 	bool isDone;
-	Inputs* inputs;
+	InputStructure* inputs;
+	Inputs* inputProcess;
 
 	long currentFrame = 0;
 	long currentProcessedFrame;
@@ -25,16 +26,20 @@ public:
 
 	void setTASFile(std::string filename) {
 		currentFilename = filename;
-		currentStream = new std::ifstream(currentFilename, std::ifstream::in);
+		currentStream = std::ifstream(currentFilename, std::ifstream::in);
 		if (!currentStream.is_open()) {
 			// Error opening file
 			return;
 		}
 	}
 
-	void setInputsInstance(Inputs* currentInputs) {
+	void setInputsInstance(InputStructure* currentInputs) {
 		// Pointer to the Inputs object
 		inputs = currentInputs;
+	}
+
+	void setInputProcessInstance(Inputs* currentInputs) {
+		inputProcess = currentInputs;
 	}
 
 	void setNextInputs(Inputs currentInputs) {
@@ -42,8 +47,9 @@ public:
 		if (!frameHasBeenProcessed) {
 			// Frame needs to be processed
 			std::string currentLine;
-			isDone = std::getline(currentStream, currentLine);
-			if (currentStream->bad()) {
+			// It returns the stream object, so it needs to be converted to a boolean
+			isDone = !!std::getline(currentStream, currentLine);
+			if (currentStream.bad()) {
 				// Some sort of error
 				return;
 			}
@@ -52,10 +58,11 @@ public:
 			// Hopefully fits all the buttons
 			char buttonPresses[64];
 			// clang-format off
-    std::sscanf(currentLine.c_str(), "%ul %s %d;%d %d;%d %d;%d;%d %d;%d;%d", &currentProcessedFrame, buttonPresses,
-                &(inputs->leftStickX), &(inputs->leftStickY), &(inputs->rightStickX), &(inputs->rightStickY),
-                &(inputs->Accel_x), &(inputs->Accel_y), &(inputs->Accel_z),
-                &(inputs->Gyro_1), &(inputs->Gyro_2), &(inputs->Gyro_3));
+			 std::sscanf(currentLine.c_str(), "%ul %s %d;%d %d;%d %d;%d;%d %d;%d;%d",
+				&currentProcessedFrame, buttonPresses,
+				&(inputs->leftStickX), &(inputs->leftStickY), &(inputs->rightStickX), &(inputs->rightStickY),
+				&(inputs->Accel_x), &(inputs->Accel_y), &(inputs->Accel_z),
+				&(inputs->Gyro_1), &(inputs->Gyro_2), &(inputs->Gyro_3));
 			// clang-format on
 			// Time to process buttons
 
@@ -64,20 +71,20 @@ public:
 		}
 		if (currentProcessedFrame == currentFrame) {
 			// Frame needs to be run now
-			inputs->setRunThisFrame(true);
+			inputProcess->setRunThisFrame(true);
 			// Can now process next frame
 			frameHasBeenProcessed = false;
 		} else {
 			// Tell input subsystem not to run this frame
-			inputs->setRunThisFrame(false);
+			inputProcess->setRunThisFrame(false);
 		}
 		// Run this frame, whether we can or not
-		inputs->run();
+		inputProcess->run();
 		// Increment current frame
 		currentFrame++;
 	}
 
 	void closeFile() {
-		currentStream->close();
+		currentStream.close();
 	}
 };
