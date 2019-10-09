@@ -1,5 +1,4 @@
 #include "thirdParty/CLI11.hpp"
-#include "thirdParty/json.hpp"
 
 #include "HIDInterface.hpp"
 
