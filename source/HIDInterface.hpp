@@ -347,7 +347,7 @@ void StartGadget() {
 	usb_gadget_dev_handle* handle;
 	struct usb_gadget_endpoint* ep0;
 	int debug_level = 1;
-	printf("OPENING DEVICE...");
+	fprintf("OPENING DEVICE...");
 
 	// Open device
 	handle = usb_gadget_open(&device);
@@ -360,14 +360,14 @@ void StartGadget() {
 	usb_gadget_set_debug_level(handle, debug_level);
 	// Get first endpoint
 	ep0 = usb_gadget_endpoint(handle, 0);
-	printf("Set ENDPOINT!");
+	fprintf("Set ENDPOINT!");
 
 	usb_gadget_set_event_cb(handle, procontroller_event_cb, NULL);
 	fds.fd = usb_gadget_control_fd(handle);
 	fds.events = POLLIN;
-	printf("Starting WHILE...");
+	fprintf("Starting WHILE...");
 	while (1) {
-		printf("start new poll");
+		fprintf("start new poll");
 		if (poll(&fds, 1, -1) < 0) {
 			perror("poll");
 			break;
