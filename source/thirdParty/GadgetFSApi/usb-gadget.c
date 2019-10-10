@@ -31,7 +31,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <iostream>
 
 #define GADGETFS_DEVICE_PATH "/dev/gadget"
 #define USB_BUFSIZ (7 * 1024)
@@ -119,11 +118,13 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		}
 		if (!result) {
 			printf("ERROR: NO RESULT\n");
-			cout << "ENTRY-INO: " << entry->d_ino << "\n";
-			cout << "ENTRY-OFF" << entry->d_off << "\n";
-			cout << "ENTRY-RECLEN: " << entry->d_reclen << "\n";
-			cout << "ENTRY-TYPE: " << entry->d_type << "\n";
-			cout << "ENTRY-NAME: " << entry->d_name << "\n";
+			printf("ENTRY-INO: ");
+			printf(entry->d_ino);
+			printf("\n");
+			//cout << "ENTRY-OFF" << entry->d_off << "\n";
+			//cout << "ENTRY-RECLEN: " << entry->d_reclen << "\n";
+			//cout << "ENTRY-TYPE: " << entry->d_type << "\n";
+			//cout << "ENTRY-NAME: " << entry->d_name << "\n";
 			if(!dirp)
 				printf("NoDirp!\n");
 			if(!entry)
