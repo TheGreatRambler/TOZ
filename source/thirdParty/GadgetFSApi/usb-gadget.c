@@ -113,7 +113,8 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		struct dirent* result;
 		int i;
 
-		if (readdir_r(dirp, entry, &result) < 0) {
+		if (readdir_r(dirp, entry, &result) <= 0) {
+			printf(entry->d_name);
 			printf("ERROR: readdir_r <= 0 (???)\n");
 			break;
 		}
@@ -121,7 +122,6 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 			printf("ERROR: NO ENTRY\n");
 			break;
 		}
-		printf("ENTRY-NAME: ",entry->d_name);
 		for (i = 0; table[i] && strcmp(table[i], entry->d_name); i++)
 			;
 		if (table[i]) {
