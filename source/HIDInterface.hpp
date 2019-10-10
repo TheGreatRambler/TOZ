@@ -363,6 +363,7 @@ void StartGadget() {
 	fds.fd = usb_gadget_control_fd(handle);
 	fds.events = POLLIN;
 	while (1) {
+		printf("start new poll");
 		if (poll(&fds, 1, -1) < 0) {
 			perror("poll");
 			break;

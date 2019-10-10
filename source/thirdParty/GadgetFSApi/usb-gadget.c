@@ -117,16 +117,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 			break;
 		}
 		if (!entry){ //(!result) {
-			printf("ERROR: NO RESULT\n");
-			printf("ENTRY-NAME: ");
-			printf(entry->d_name);
-			printf("\n");
-			if(!dirp)
-				printf("NoDirp!\n");
-			if(!entry)
-				printf("NoEntry!\n");
-			if(!result)
-				printf("NoResult!\n");
+			printf("ERROR: NO ENTRY\n");
 			break;
 		}
 		for (i = 0; table[i] && strcmp(table[i], entry->d_name); i++)
