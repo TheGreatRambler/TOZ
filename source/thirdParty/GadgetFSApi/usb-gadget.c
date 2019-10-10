@@ -31,7 +31,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <iostream.h>
+#include <iostream>
 
 #define GADGETFS_DEVICE_PATH "/dev/gadget"
 #define USB_BUFSIZ (7 * 1024)
