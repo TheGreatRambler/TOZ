@@ -118,11 +118,11 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		}
 		if (!result) {
 			printf("ERROR: NO RESULT\n");
-			if(!dirp){
+			if(!dirp)
 				printf("NoDirp!");
-			if(!entry){
+			if(!entry)
 				printf("NoEntry!");
-			if(!result){
+			if(!result)
 				printf("NoResult!");
 			break;
 		}
