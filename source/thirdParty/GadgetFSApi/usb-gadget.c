@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <iostream.h>
 
 #define GADGETFS_DEVICE_PATH "/dev/gadget"
 #define USB_BUFSIZ (7 * 1024)
@@ -118,17 +119,17 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		}
 		if (!result) {
 			printf("ERROR: NO RESULT\n");
-			printf("ENTRY-INO: "+entry->d_ino+"\n");
-			printf("ENTRY-OFF"+entry->d_off+"\n");
-			printf("ENTRY-RECLEN: "+entry->d_reclen+"\n");
-			printf("ENTRY-TYPE: "+entry->d_type+"\n");
-			printf("ENTRY-NAME: "+entry->d_name+"\n");
+			cout << "ENTRY-INO: " << entry->d_ino << "\n";
+			cout << "ENTRY-OFF" << entry->d_off << "\n";
+			cout << "ENTRY-RECLEN: " << entry->d_reclen << "\n";
+			cout << "ENTRY-TYPE: " << entry->d_type << "\n";
+			cout << "ENTRY-NAME: " << entry->d_name << "\n";
 			if(!dirp)
-				printf("NoDirp!"+"\n");
+				printf("NoDirp!\n");
 			if(!entry)
-				printf("NoEntry!"+"\n");
+				printf("NoEntry!\n");
 			if(!result)
-				printf("NoResult!"+"\n");
+				printf("NoResult!\n");
 			break;
 		}
 		for (i = 0; table[i] && strcmp(table[i], entry->d_name); i++)
