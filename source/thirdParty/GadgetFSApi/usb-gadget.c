@@ -108,6 +108,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		return NULL;
 	}
 
+	printf("ENTERING WHILE\n");
 	while (1) {
 		struct dirent* result;
 		int i;
@@ -123,6 +124,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		for (i = 0; table[i] && strcmp(table[i], entry->d_name); i++)
 			;
 		if (table[i]) {
+			printf("FOUND??");
 			ep0 = malloc(sizeof(*ep0));
 			if (!ep0) {
 				printf("ERROR: NO VIRTUAL RAM\n");
