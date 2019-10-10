@@ -112,8 +112,8 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		struct dirent* result;
 		int i;
 
-		if (readdir_r(dirp, entry, &result) < 0) {
-			printf("ERROR: readdir_r < 0 (???)\n");
+		if (readdir_r(dirp, entry, &result) <= 0) {
+			printf("ERROR: readdir_r <= 0 (???)\n");
 			break;
 		}
 		if (!result) {
