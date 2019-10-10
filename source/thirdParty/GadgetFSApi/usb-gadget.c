@@ -97,38 +97,39 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 
 	dirp = opendir(GADGETFS_DEVICE_PATH);
 	if (!dirp) {
-		printf("ERROR: NoDirp\n");
+		debug(handle, 2, "ERROR: NoDirp\n");
 		return NULL;
 	}
 
 	entry = malloc(offsetof(struct dirent, d_name) + pathconf(GADGETFS_DEVICE_PATH, _PC_NAME_MAX) + 1);
 	if (!entry) {
 		closedir(dirp);
-		printf("ERROR: NoEntry\n");
+		debug(handle, 2, "ERROR: NoEntry\n");
 		return NULL;
 	}
 
-	printf("ENTERING WHILE\n");
+	debug(handle, 2, "ENTERING WHILE\n");
 	while (1) {
-		struct dirent* result;
 		int i;
 
-		if (readdir_r(dirp, entry, &result) <= 0) {
-			printf(entry->d_name);
-			printf("ERROR: readdir_r <= 0 (???)\n");
+		// Set pointer to value returned from readdir
+		entry = readdir(dirp);
+		if (!entry) {
+			debug(handle, 2, entry->d_name);
+			debug(handle, 2, "ERROR: readdir didn't work???\n");
 			break;
 		}
 		if (!entry){ //(!result) {
-			printf("ERROR: NO ENTRY\n");
+			debug(handle, 2, "ERROR: NO ENTRY\n");
 			break;
 		}
 		for (i = 0; table[i] && strcmp(table[i], entry->d_name); i++)
 			;
 		if (table[i]) {
-			printf("FOUND??");
+			debug(handle, 2, "FOUND??");
 			ep0 = malloc(sizeof(*ep0));
 			if (!ep0) {
-				printf("ERROR: NO VIRTUAL RAM\n");
+				debug(handle, 2, "ERROR: NO VIRTUAL RAM\n");
 				break;
 			}
 			usb_gadget_init_list_head(&ep0->ep_list);
@@ -136,7 +137,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 			if (!ep0->ep.name) {
 				free(ep0);
 				ep0 = NULL;
-				printf("ERROR: Name of Endpoint not set\n");
+				debug(handle, 2, "ERROR: Name of Endpoint not set\n");
 				break;
 			}
 			ep0->fd = -1;
@@ -252,10 +253,12 @@ static struct _usb_gadget_endpoint* find_ep(struct usb_gadget_dev_handle* handle
 		int i;
 
 	next:
-		if (readdir_r(dirp, entry, &result) < 0)
+		// Set pointer to value returned from readdir
+		entry = readdir(dirp);
+		if (!entry) {
+			debug(handle, 2, "Device path could not be opened.\n");
 			break;
-		if (!result)
-			break;
+		}
 
 		if (strcmp(handle->ep0->ep.name, entry->d_name) && !strncmp(entry->d_name, "ep", 2)) {
 			struct _usb_gadget_endpoint* _ep;
@@ -338,43 +341,43 @@ int usb_gadget_endpoint_close(struct usb_gadget_endpoint* ep) {
 }
 
 usb_gadget_dev_handle* usb_gadget_open(struct usb_gadget_device* device) {
-	printf("TRYING TO OPEN GADGET\n");
+	debug(handle, 2, "TRYING TO OPEN GADGET\n");
 	struct usb_gadget_dev_handle* handle;
 
 	if (!device || !device->device || !device->config) {
-		printf("Please include device handle.\n");
+		debug(handle, 2, "Please include device handle.\n");
 		errno = EINVAL;
 		return NULL;
 	}
 
 	handle = malloc(sizeof(*handle));
 	if (!handle) {
-		printf("No handle.\n");
+		debug(handle, 2, "No handle.\n");
 		goto error;
 	}
 	handle->device = device;
 
-	printf("FINDING...\n");
+	debug(handle, 2, "FINDING...\n");
 	handle->ep0 = find_ep0(handle);
 	if (!handle->ep0) {
 		printf("No endpoint 0.\n");
 		goto error;
 	}
-	printf("FOUND! OPENING...\n");
+	debug(handle, 2, "FOUND! OPENING...\n");
 
 	if (open_ep0(handle) < 0) {
 		printf("Couldn't open endpoint 0.\n");
 		goto error;
 	}
-	printf("OPENED! LISTING HEAD...\n");
+	debug(handle, 2, "OPENED! LISTING HEAD...\n");
 
 	usb_gadget_init_list_head(&handle->ep_list);
 
-	printf("DONE! RETURN.\n");
+	debug(handle, 2, "DONE! RETURN.\n");
 	return handle;
 
 error:
-	printf("Errored when opening device.\n");
+	debug(handle, 2, "Errored when opening device.\n");
 	if (handle->ep0) {
 		close_ep(handle->ep0);
 		free(handle->ep0);
@@ -508,6 +511,7 @@ static void setup(struct usb_gadget_dev_handle* handle, struct usb_ctrlrequest* 
 		case USB_TYPE_STANDARD:
 			switch (ctrl->bRequest) {
 				// Some HID specific stuff
+				// I added this
 				case HID_REQ_GET_REPORT:
 					if (ctrl->bRequestType != USB_DIR_IN)
 						goto stall;
