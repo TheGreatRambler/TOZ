@@ -6,6 +6,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+
+using namespace std;
 
 /* /dev/gadget/ep* doesn't support poll, we have to use an alternative
    approach. */
