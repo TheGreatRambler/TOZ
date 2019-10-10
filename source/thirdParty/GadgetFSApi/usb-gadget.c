@@ -335,6 +335,7 @@ int usb_gadget_endpoint_close(struct usb_gadget_endpoint* ep) {
 }
 
 usb_gadget_dev_handle* usb_gadget_open(struct usb_gadget_device* device) {
+	printf("TRYING TO OPEN GADGET\n");
 	struct usb_gadget_dev_handle* handle;
 
 	if (!device || !device->device || !device->config) {
@@ -350,18 +351,23 @@ usb_gadget_dev_handle* usb_gadget_open(struct usb_gadget_device* device) {
 	}
 	handle->device = device;
 
+	printf("FINDING...\n");
 	handle->ep0 = find_ep0(handle);
 	if (!handle->ep0) {
 		printf("No endpoint 0.\n");
 		goto error;
 	}
+	printf("FOUND! OPENING...\n");
 
 	if (open_ep0(handle) < 0) {
 		printf("Couldn't open endpoint 0.\n");
 		goto error;
 	}
+	printf("OPENED! LISTING HEAD...\n");
 
 	usb_gadget_init_list_head(&handle->ep_list);
+
+	printf("DONE! RETURN.\n");
 	return handle;
 
 error:
