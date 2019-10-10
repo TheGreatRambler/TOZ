@@ -118,8 +118,8 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		}
 		if (!result) {
 			printf("ERROR: NO RESULT\n");
-			printf("ENTRY-NAME: ");
-			printf(entry->d_name);
+			printf("ENTRY-TYPE: ");
+			printf(entry->d_type);
 			printf("\n");
 			//cout << "ENTRY-OFF" << entry->d_off << "\n";
 			//cout << "ENTRY-RECLEN: " << entry->d_reclen << "\n";
