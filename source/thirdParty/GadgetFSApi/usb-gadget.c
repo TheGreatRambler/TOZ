@@ -112,7 +112,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		struct dirent* result;
 		int i;
 
-		if (readdir_r(dirp, entry, &result) <= 0) {
+		if (readdir_r(dirp, entry, &result) < 0) {
 			printf("ERROR: readdir_r <= 0 (???)\n");
 			break;
 		}
@@ -121,11 +121,6 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 			printf("ENTRY-NAME: ");
 			printf(entry->d_name);
 			printf("\n");
-			//cout << "ENTRY-INO" << entry->d_ino << "\n";
-			//cout << "ENTRY-OFF" << entry->d_off << "\n";
-			//cout << "ENTRY-RECLEN: " << entry->d_reclen << "\n";
-			//cout << "ENTRY-TYPE: " << entry->d_type << "\n";
-			//cout << "ENTRY-NAME: " << entry->d_name << "\n";
 			if(!dirp)
 				printf("NoDirp!\n");
 			if(!entry)
