@@ -341,8 +341,8 @@ int usb_gadget_endpoint_close(struct usb_gadget_endpoint* ep) {
 }
 
 usb_gadget_dev_handle* usb_gadget_open(struct usb_gadget_device* device) {
-	debug(handle, 2, "TRYING TO OPEN GADGET\n");
 	struct usb_gadget_dev_handle* handle;
+	debug(handle, 2, "TRYING TO OPEN GADGET\n");
 
 	if (!device || !device->device || !device->config) {
 		debug(handle, 2, "Please include device handle.\n");
