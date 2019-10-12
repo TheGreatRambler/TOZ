@@ -123,9 +123,9 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		if (table[i]) {
 			debug(handle, 2, "FOUND??\n");
 			debug(handle, 2, table[i]);
-			debug(handle, 2, "\n");
+			debug(handle, 2, ".\n");
 			debug(handle, 2, entry->d_name);
-			debug(handle, 2, "\n");
+			debug(handle, 2, ".\n");
 			ep0 = malloc(sizeof(*ep0));
 			if (!ep0) {
 				debug(handle, 2, "ERROR: NO VIRTUAL RAM\n");
@@ -134,9 +134,9 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 			usb_gadget_init_list_head(&ep0->ep_list);
 			ep0->ep.name = strdup(table[i]);
 			debug(handle, 2, strdup(table[i]));
-			debug(handle, 2, "\n");
+			debug(handle, 2, ".\n");
 			debug(handle, 2, ep0->ep.name);
-			debug(handle, 2, "\n");
+			debug(handle, 2, ".\n");
 			if (!ep0->ep.name) {
 				debug(handle, 2, "ERROR: Name of Endpoint not set\n");
 				free(ep0);
