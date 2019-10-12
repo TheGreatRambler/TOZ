@@ -115,12 +115,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		// Set pointer to value returned from readdir
 		entry = readdir(dirp);
 		if (!entry) {
-			debug(handle, 2, entry->d_name);
 			debug(handle, 2, "ERROR: readdir didn't work???\n");
-			break;
-		}
-		if (!entry){ //(!result) {
-			debug(handle, 2, "ERROR: NO ENTRY\n");
 			break;
 		}
 		for (i = 0; table[i] && strcmp(table[i], entry->d_name); i++)
