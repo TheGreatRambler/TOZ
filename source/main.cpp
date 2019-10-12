@@ -10,6 +10,9 @@ int main(int argc, char** argv) {
 	std::string action = "run";
 	app.add_option("-a,--action", action, "Choose action that the program should do");
 
+	// Parse commands
+	CLI11_PARSE(app, argc, argv);
+
 	// Go back one folder for later stuff
 	chdir("..");
 
@@ -20,10 +23,10 @@ int main(int argc, char** argv) {
 		system("make");
 		puts("Program is updated");
 	} else if (action == "run") {
+		// Start gadget
 		puts("Starting gadget");
 		StartGadget();
 	}
 
-	CLI11_PARSE(app, argc, argv);
 	return 0;
 }
