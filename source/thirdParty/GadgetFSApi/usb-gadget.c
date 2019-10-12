@@ -161,6 +161,8 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 		return -1;
 	}
 
+	debug(handle, 2, "ep0 fd obtained\n");
+
 	p = buf;
 	*(uint32_t*) p = 0; /* tag */
 	p += sizeof(uint32_t);
@@ -189,6 +191,8 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 		debug(ep0->handle, 2, "libusb-gadget: open_ep0: can't write config\n");
 		goto error;
 	}
+
+	debug(handle, 2, "Descriptor written\n");
 
 	return 0;
 
@@ -370,7 +374,7 @@ usb_gadget_dev_handle* usb_gadget_open(struct usb_gadget_device* device) {
 	}
 	debug(handle, 2, "FOUND! OPENING...\n");
 
-	if (open_ep0(handle) < 0) {
+	if (open_ep0(handle) == -1) {
 		printf("Couldn't open endpoint 0.\n");
 		goto error;
 	}
