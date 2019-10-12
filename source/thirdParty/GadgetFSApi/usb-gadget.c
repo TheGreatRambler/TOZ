@@ -122,6 +122,8 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 			;
 		if (table[i]) {
 			debug(handle, 2, "FOUND??");
+			debug(handle, 2, table[i]);
+			debug(handle, 2, entry->d_name);
 			ep0 = malloc(sizeof(*ep0));
 			if (!ep0) {
 				debug(handle, 2, "ERROR: NO VIRTUAL RAM\n");
@@ -143,6 +145,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 	free(entry);
 	closedir(dirp);
 
+	debug(handle, 2, "RETURNING TO usb_gadget_open OR WHATEVER\n");
 	return ep0;
 }
 
