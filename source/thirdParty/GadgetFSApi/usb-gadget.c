@@ -92,7 +92,7 @@ static int config_buf(void* buf, unsigned buflen, struct usb_descriptor_header**
 static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handle) {
 	DIR* dirp;
 	struct dirent* entry;
-	static const char* table[] = { "dummy_udc", "net2280", "gfs_udc", "pxa2xx_udc", "goku_udc", "sh_udc", "omap_udc", "musb_hdrc", "at91_udc", "lh740x_udc", "atmel_usba_udc", NULL };
+	static const char* table[] = { "dummy_udc", "net2280", "gfs_udc", "pxa2xx_udc", "goku_udc", "sh_udc", "omap_udc", "musb_hdrc", "at91_udc", "lh740x_udc", "atmel_usba_udc", "20980000.usb", NULL };
 	struct _usb_gadget_endpoint* ep0 = NULL;
 
 	dirp = opendir(GADGETFS_DEVICE_PATH);
