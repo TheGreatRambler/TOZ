@@ -151,12 +151,12 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	int ret;
 	char buf[USB_BUFSIZ], *p;
 	struct _usb_gadget_endpoint* ep0 = handle->ep0;
-	debug(handle, 2, "INSIDE OF open_ep0");
+	debug(handle, 2, "INSIDE OF open_ep0\n");
 
 	snprintf(buf, sizeof(buf), "%s/%s", GADGETFS_DEVICE_PATH, ep0->ep.name);
 	ep0->fd = open(buf, O_RDWR);
 	if (ep0->fd < 0) {
-		debug(handle, 2, "ERROR: ep0->fd < 0");
+		debug(handle, 2, "ERROR: ep0->fd < 0\n");
 		return -1;
 	}
 
@@ -166,16 +166,16 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 
 	ret = config_buf(p, sizeof(buf) - (p - buf), handle->device->config);
 	if (ret < 0) {
-		debug(handle, 2, "ERROR: ret < 0");
+		debug(handle, 2, "ERROR: ret < 0\n");
 		goto error;
 	}
 	p += ret;
 
 	if (handle->device->hs_config) {
-		debug(handle, 2, "HS-CONFIG TRIGGERED");
+		debug(handle, 2, "HS-CONFIG TRIGGERED\n");
 		ret = config_buf(p, sizeof(buf) - (p - buf), handle->device->hs_config);
 		if (ret < 0) {
-			debug(handle, 2, "ERROR: INSIDE OF hs_config: ret < 0");
+			debug(handle, 2, "ERROR: INSIDE OF hs_config: ret < 0\n");
 			goto error;
 		}
 		p += ret;
