@@ -6,6 +6,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+
+using namespace std;
 
 /* /dev/gadget/ep* doesn't support poll, we have to use an alternative
    approach. */
@@ -316,13 +319,22 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 	}
 }
 
+bool alreadyMounted() {
+	struct stat buffer;
+	const std::string name = "/dev/gadget";   
+	return (stat (name.c_str(), &buffer) == 0); 
+}
+
 void StartGadget() {
 
 	// Create gadgetfs in memory
-	system("sudo modprobe dwc2");
-	system("sudo modprobe gadgetfs");
-	system("sudo mkdir /dev/gadget");
-	system("sudo mount -t gadgetfs gadgetfs /dev/gadget");
+	if(!alreadyMounted()) {
+		printf("Mount endpoint");
+		system("sudo modprobe dwc2");
+		system("sudo modprobe gadgetfs");
+		system("sudo mkdir /dev/gadget");
+		system("sudo mount -t gadgetfs gadgetfs /dev/gadget");
+	}
 
 	struct usb_gadget_device device = {
 		.device = &procontroller_device_descriptor,
@@ -338,22 +350,27 @@ void StartGadget() {
 	usb_gadget_dev_handle* handle;
 	struct usb_gadget_endpoint* ep0;
 	int debug_level = 1;
+	cout << "OPENING DEVICE...\n";
 
 	// Open device
 	handle = usb_gadget_open(&device);
 	if (!handle) {
 		fprintf(stderr, "Couldn't open device.\n");
-		return 1;
+		return;
 	}
+	cout << "OPENED DEVICE!\n";
 	// Debug everything
 	usb_gadget_set_debug_level(handle, debug_level);
 	// Get first endpoint
 	ep0 = usb_gadget_endpoint(handle, 0);
+	cout << "Set ENDPOINT!\n";
 
 	usb_gadget_set_event_cb(handle, procontroller_event_cb, NULL);
 	fds.fd = usb_gadget_control_fd(handle);
 	fds.events = POLLIN;
+	cout << "Starting WHILE...\n";
 	while (1) {
+		cout << "start new poll\n";
 		if (poll(&fds, 1, -1) < 0) {
 			perror("poll");
 			break;
@@ -364,6 +381,4 @@ void StartGadget() {
 
 	// Close device
 	usb_gadget_close(handle);
-
-	return 0;
 }
