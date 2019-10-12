@@ -135,12 +135,13 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 				ep0 = NULL;
 				break;
 			}
+			debug(handle, 2, "ep0 name: %s\n", ep0->ep.name);
 			ep0->fd = -1;
 			break;
 		}
 	}
 
-	//free(entry); <- Not working because of setting entry with entry = readdir, so allocation was useless
+	// free(entry); <- Not working because of setting entry with entry = readdir, so allocation was useless
 	closedir(dirp);
 
 	debug(handle, 2, "RETURNING TO usb_gadget_open OR WHATEVER\n");

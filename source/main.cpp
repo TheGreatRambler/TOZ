@@ -4,6 +4,11 @@
 
 #include "HIDInterface.hpp"
 
+bool IsRunningAsSudo() {
+	// When effective uid is zero, the effective user has admin rights
+	return !geteuid();
+}
+
 int main(int argc, char** argv) {
 	CLI::App app { "A TAS program that can be run on unmodified hardware from a Raspi Zero" };
 
@@ -18,14 +23,19 @@ int main(int argc, char** argv) {
 
 	if (action == "update") {
 		// Run update
+		puts("-----Starting Update-----");
 		system("git reset --hard");
 		system("git pull origin master");
 		system("make");
-		puts("Program is updated");
+		puts("----Finished-----");
 	} else if (action == "run") {
 		// Start gadget
-		puts("Starting gadget");
-		StartGadget();
+		if (IsRunningAsSudo()) {
+			puts("-----Starting gadget-----");
+			StartGadget();
+		} else {
+			puts("Admin rights (using SUDO or otherwise) are required to run this application");
+		}
 	}
 
 	return 0;
