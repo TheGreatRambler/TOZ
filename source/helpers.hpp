@@ -86,7 +86,8 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
 
 char* GetExecutablePath() {
 	char arg1[20];
-	char exepath[PATH_MAX + 1] = { 0 };
+	// PATH_MAX is defined as 4096, and this is adding 1 to that
+	char exepath[4097] = { 0 };
 
 	sprintf(arg1, "/proc/%d/exe", getpid());
 	readlink(arg1, exepath, 1024);
