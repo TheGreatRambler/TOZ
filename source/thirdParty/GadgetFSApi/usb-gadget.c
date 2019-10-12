@@ -121,7 +121,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 		for (i = 0; table[i] && strcmp(table[i], entry->d_name); i++)
 			;
 		if (table[i]) {
-			debug(handle, 2, "FOUND??");
+			debug(handle, 2, "FOUND??\n");
 			debug(handle, 2, table[i]);
 			debug(handle, 2, entry->d_name);
 			ep0 = malloc(sizeof(*ep0));
@@ -130,11 +130,11 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 				break;
 			}
 			usb_gadget_init_list_head(&ep0->ep_list);
-			ep0->ep.name = strdup(table[i]);
-			if (!ep0->ep.name) {
+			ep0->name = strdup(table[i]); //ep.name = strdup(table[i]);
+			if (!ep0->name) { //(ep.name) {
+				debug(handle, 2, "ERROR: Name of Endpoint not set\n");
 				free(ep0);
 				ep0 = NULL;
-				debug(handle, 2, "ERROR: Name of Endpoint not set\n");
 				break;
 			}
 			ep0->fd = -1;
