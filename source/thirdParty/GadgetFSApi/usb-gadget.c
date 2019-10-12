@@ -136,7 +136,7 @@ static struct _usb_gadget_endpoint* find_ep0(struct usb_gadget_dev_handle* handl
 			debug(handle, 2, strdup(table[i]));
 			debug(handle, 2, ".\n");
 			debug(handle, 2, ep0->ep.name);
-			debug(handle, 2, ".\n");
+			debug(handle, 2, "<-name.\n");
 			if (!ep0->ep.name) {
 				debug(handle, 2, "ERROR: Name of Endpoint not set\n");
 				free(ep0);
