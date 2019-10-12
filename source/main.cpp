@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
 		system("make");
 		puts("Program is updated");
 	} else if (action == "run") {
+		puts("Starting gadget");
 		StartGadget();
 	}
 

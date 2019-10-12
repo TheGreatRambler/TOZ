@@ -1,12 +1,12 @@
 #pragma once
 
 #include <fcntl.h>
+#include <iostream>
 #include <linux/usb/ch9.h>
 #include <poll.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <iostream>
 
 using namespace std;
 
@@ -321,14 +321,14 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 
 bool alreadyMounted() {
 	struct stat buffer;
-	const std::string name = "/dev/gadget";   
-	return (stat (name.c_str(), &buffer) == 0); 
+	const std::string name = "/dev/gadget";
+	return (stat(name.c_str(), &buffer) == 0);
 }
 
 void StartGadget() {
 
 	// Create gadgetfs in memory
-	if(!alreadyMounted()) {
+	if (!alreadyMounted()) {
 		printf("Mount endpoint");
 		system("sudo modprobe dwc2");
 		system("sudo modprobe gadgetfs");
