@@ -25,8 +25,6 @@ CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
-	# Give executable rights
-	chmod +x $(BUILD_DIR)/$(TARGET_EXEC)
 
 # assembly
 $(BUILD_DIR)/%.s.o: %.s

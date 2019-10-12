@@ -3,6 +3,7 @@
 #include "thirdParty/CLI11.hpp"
 
 #include "HIDInterface.hpp"
+#include "helpers.hpp"
 
 bool IsRunningAsSudo() {
 	// When effective uid is zero, the effective user has admin rights
@@ -18,11 +19,12 @@ int main(int argc, char** argv) {
 	// Parse commands
 	CLI11_PARSE(app, argc, argv);
 
-	// Go back one folder for later stuff
-	chdir("..");
-
 	if (action == "update") {
 		// Run update
+		// Go to executable's path
+		chdir(GetExecutablePath());
+		// Go back one folder
+		chdir("..");
 		puts("-----Starting Update-----");
 		system("git reset --hard");
 		system("git pull origin master");

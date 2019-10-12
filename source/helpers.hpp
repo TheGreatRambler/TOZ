@@ -82,3 +82,13 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
 	} while (pos < str.length() && prev < str.length());
 	return tokens;
 }
+
+
+std::string GetExecutablePath() {
+	char arg1[20];
+	char exepath[PATH_MAX + 1] = { 0 };
+
+	sprintf(arg1, "/proc/%d/exe", getpid());
+	readlink(arg1, exepath, 1024);
+	return std::string(exepath);
+}
