@@ -1,5 +1,5 @@
 # No extension for the executable
-TARGET_EXEC ?= TOZ
+TARGET_EXEC ?= toz
 
 BUILD_DIR ?= ./build
 SRC_DIRS ?= ./source
