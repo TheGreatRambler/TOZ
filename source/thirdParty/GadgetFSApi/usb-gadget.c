@@ -155,6 +155,7 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	debug(handle, 2, "INSIDE OF open_ep0\n");
 
 	snprintf(buf, sizeof(buf), "%s/%s", GADGETFS_DEVICE_PATH, ep0->ep.name);
+	debug(handle, 2, buf);
 	ep0->fd = open(buf, O_RDWR);
 	if (ep0->fd < 0) {
 		debug(handle, 2, "ERROR: ep0->fd < 0\n");
