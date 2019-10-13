@@ -87,7 +87,7 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
 
 std::string GetExePath(){
 	char result[4096];
-	ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+	ssize_t count = readlink("/proc/self/exe", result, 4096);
 	std::string path;
 	if (count != -1) {
 		path = dirname(result);
