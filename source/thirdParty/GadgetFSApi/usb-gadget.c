@@ -173,6 +173,7 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 		goto error;
 	}
 	p += ret;
+	debug(handle, 2, "ret WRITTEN\n");
 
 	if (handle->device->hs_config) {
 		debug(handle, 2, "HS-CONFIG TRIGGERED\n");
@@ -185,6 +186,7 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	}
 
 	memcpy(p, handle->device->device, sizeof(struct usb_device_descriptor));
+	debug(handle, 2, "memcpy SUCCEEDED\n");
 	p += sizeof(struct usb_device_descriptor);
 
 	if (write(ep0->fd, buf, p - buf) < 0) {
