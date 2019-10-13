@@ -23,11 +23,9 @@ int main(int argc, char** argv) {
 	if (action == "update") {
 		// Run update
 		// Go to executable's path
-		char exePath[4069];
-		// Put executable path in variable
-		GetExecutablePath(exePath)
-		puts(exePath);
-		chdir(exePath);
+		std::string exePath = GetExePath();
+		puts(exePath.c_str());
+		chdir(exePath.c_str());
 		// Go back one folder
 		chdir("..");
 		puts("-----Starting Update-----");
