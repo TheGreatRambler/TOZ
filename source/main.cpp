@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 		// Go to executable's path
 		char exePath[4069];
 		// Put executable path in variable
-		strcpy(exePath, GetExecutablePath());
+		GetExecutablePath(exePath)
 		puts(exePath);
 		chdir(exePath);
 		// Go back one folder
