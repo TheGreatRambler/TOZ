@@ -196,10 +196,11 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 		debug(ep0->handle, 2, "libusb-gadget: open_ep0: can't write config\n");
 		goto error;
 	}*/
+	return -1;
 
-	debug(handle, 2, "Descriptor written\n");
+	/*debug(handle, 2, "Descriptor written\n");
 
-	return 0;
+	return 0;*/
 
 error:
 	close(ep0->fd);
