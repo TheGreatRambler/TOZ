@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
 	if (action == "update") {
 		// Run update
 		// Go to executable's path
-		char* exePath = GetExecutablePath();
+		char exePath[] = GetExecutablePath();
 		puts(exePath);
 		chdir(exePath);
 		// Go back one folder
