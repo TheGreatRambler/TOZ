@@ -189,7 +189,7 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	debug(handle, 2, "memcpy SUCCEEDED\n");
 	p += sizeof(struct usb_device_descriptor);
 
-	int errno = write(ep0->fd, buf, p - buf);
+	write(ep0->fd, buf, p - buf);
 	if (errno < 0) {
 		debug(handle, 2, "can't write config\n");
 		debug(handle, 2, strerror(errno));
