@@ -192,7 +192,9 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	
 	write(ep0->fd, buf, p - buf);
 	debug(handle, 2, strerror(errno));
-	debug(handle, 2, "<- errno string");
+	debug(handle, 2, "<- errno string\n");
+	debug(handle, 2, p-buf);
+	debug(handle, 2, "<- length of write\n");
 	/*if (write(ep0->fd, buf, p - buf) < 0) {
 		debug(handle, 2, "can't write config\n");
 		debug(ep0->handle, 2, "libusb-gadget: open_ep0: can't write config\n");
