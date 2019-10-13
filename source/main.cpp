@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <string.h>
 
 #include "thirdParty/CLI11.hpp"
 
