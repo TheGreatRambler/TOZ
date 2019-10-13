@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <vector>
+#include <libgen.h>
 
 
 char CreateByteWithNibbles(int hi, int lo) {
@@ -84,10 +85,12 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
 }
 
 
-void GetExecutablePath(char* path) {
-	char arg1[20];
-
-	sprintf(arg1, "/proc/%d/exe", getpid());
-	// Read into path
-	readlink(arg1, path, 1024);
+std::string GetExePath(){
+	char result[4096];
+	ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+	std::string path;
+	if (count != -1) {
+		path = dirname(result);
+	}
+	return path;
 }
