@@ -189,12 +189,16 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	debug(handle, 2, "memcpy SUCCEEDED\n");
 	p += sizeof(struct usb_device_descriptor);
 	
+	if (write(ep0->fd, "TESTING THIS STUFF WITH A USELESS STRING", 7) < 0) {
+		debug(handle, 2, "can't write test\n");
+		debug(handle, 2, strerror(errno));
+		debug(handle, 2, "<- errno string\n");
+		goto error;
+	}
 	if (write(ep0->fd, buf, p - buf) < 0) {
 		debug(handle, 2, "can't write config\n");
 		debug(handle, 2, strerror(errno));
 		debug(handle, 2, "<- errno string\n");
-		debug(handle, 2, p);
-		debug(handle, 2, "<- p\n");
 		debug(ep0->handle, 2, "libusb-gadget: open_ep0: can't write config\n");
 		goto error;
 	}
