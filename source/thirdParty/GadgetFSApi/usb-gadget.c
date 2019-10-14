@@ -155,6 +155,7 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	debug(handle, 2, "INSIDE OF open_ep0\n");
 
 	snprintf(buf, sizeof(buf), "%s/%s", GADGETFS_DEVICE_PATH, ep0->ep.name);
+	debug(handle, 2, buf);
 	ep0->fd = open(buf, O_RDWR);
 	if (ep0->fd < 0) {
 		debug(handle, 2, "ERROR: ep0->fd < 0\n");
@@ -173,6 +174,7 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 		goto error;
 	}
 	p += ret;
+	debug(handle, 2, "ret WRITTEN\n");
 
 	if (handle->device->hs_config) {
 		debug(handle, 2, "HS-CONFIG TRIGGERED\n");
@@ -185,6 +187,7 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	}
 
 	memcpy(p, handle->device->device, sizeof(struct usb_device_descriptor));
+	debug(handle, 2, "memcpy SUCCEEDED\n");
 	p += sizeof(struct usb_device_descriptor);
 
 	// Print filename of fd
@@ -194,7 +197,22 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	readlink(thing, filename, 20);
 	puts(filename);
 
-	if (write(ep0->fd, buf, p - buf) == -1) {
+	if (!(fcntl(ep0->fd, F_GETFD) != -1 || errno != EBADF)) {
+		debug(handle, 2, "ep0 file desciptor is invalid\n");
+		goto error;
+	}
+	/*
+	if (write(ep0->fd, "TESTING THIS STUFF WITH A USELESS STRING", 7) < 0) {
+		debug(handle, 2, "can't write test\n");
+		debug(handle, 2, strerror(errno));
+		debug(handle, 2, " <- errno string\n");
+		goto error;
+	}
+	*/
+	if (write(ep0->fd, buf, p - buf) < 0) {
+		debug(handle, 2, "can't write config\n");
+		debug(handle, 2, strerror(errno));
+		debug(handle, 2, " <- errno string\n");
 		debug(ep0->handle, 2, "libusb-gadget: open_ep0: can't write config\n");
 		goto error;
 	}

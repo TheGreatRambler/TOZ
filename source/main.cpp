@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <string.h>
 
 #include "thirdParty/CLI11.hpp"
 
@@ -22,7 +23,9 @@ int main(int argc, char** argv) {
 	if (action == "update") {
 		// Run update
 		// Go to executable's path
-		chdir(GetExecutablePath());
+		std::string exePath = GetExePath();
+		puts(exePath.c_str());
+		chdir(exePath.c_str());
 		// Go back one folder
 		chdir("..");
 		puts("-----Starting Update-----");
