@@ -155,14 +155,20 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	debug(handle, 2, "INSIDE OF open_ep0\n");
 
 	snprintf(buf, sizeof(buf), "%s/%s", GADGETFS_DEVICE_PATH, ep0->ep.name);
-	debug(handle, 2, buf);
+	debug(handle, 2, "%s%s", buf, "\n");
 	ep0->fd = open(buf, O_RDWR);
 	if (ep0->fd < 0) {
 		debug(handle, 2, "ERROR: ep0->fd < 0\n");
 		return -1;
 	}
 
-	debug(handle, 2, "ep0 fd obtained\n");
+	debug(handle, 2, "ep0 fd obtained: %d\n", ep0->fd);
+	// Print filename of fd
+	char filename[20];
+	char thing[20];
+	snprintf(thing, 20, "/proc/self/fd/%d", ep0->fd);
+	readlink(thing, filename, 20);
+	debug(handle, 2, "Filename of fd: %s\n", filename);
 
 	p = buf;
 	*(uint32_t*) p = 0; /* tag */
@@ -189,13 +195,6 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	memcpy(p, handle->device->device, sizeof(struct usb_device_descriptor));
 	debug(handle, 2, "memcpy SUCCEEDED\n");
 	p += sizeof(struct usb_device_descriptor);
-
-	// Print filename of fd
-	char filename[20];
-	char thing[20];
-	snprintf(thing, 20, "/proc/self/fd/%d", ep0->fd);
-	readlink(thing, filename, 20);
-	puts(filename);
 
 	if (!(fcntl(ep0->fd, F_GETFD) != -1 || errno != EBADF)) {
 		debug(handle, 2, "ep0 file desciptor is invalid\n");
