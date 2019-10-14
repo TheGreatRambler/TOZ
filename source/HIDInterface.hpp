@@ -9,8 +9,6 @@
 #include <stdlib.h>
 #include <linux/types.h>
 
-using namespace std;
-
 /* /dev/gadget/ep* doesn't support poll, we have to use an alternative
    approach. */
 #include <pthread.h>
