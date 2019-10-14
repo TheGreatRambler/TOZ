@@ -162,7 +162,7 @@ static struct usb_gadget_strings procontroller_strings = {
 };
 
 static struct usb_device_descriptor procontroller_device_descriptor = {
-	.bLength = sizeof(procontroller_device_descriptor),
+	.bLength = sizeof(procontroller_device_descriptor), // 21
 	.bDescriptorType = USB_DT_DEVICE, // Defines that this is a device
 
 	.bcdUSB = usb_gadget_cpu_to_le16(0x0200), // Defines that this is USB 2.0
@@ -176,9 +176,9 @@ static struct usb_device_descriptor procontroller_device_descriptor = {
 	.idProduct = usb_gadget_cpu_to_le16(0x2009), // Pro Controller
 	.bcdDevice = usb_gadget_cpu_to_le16(0x0200), // BCD Device 4.00
 
-	.iManufacturer = usb_gadget_cpu_to_le16(STRING_MANUFACTURER),
-	.iProduct = usb_gadget_cpu_to_le16(STRING_PRODUCT),
-	.iSerialNumber = usb_gadget_cpu_to_le16(STRING_SERIAL),
+	.iManufacturer = usb_gadget_cpu_to_le16(STRING_MANUFACTURER), // 1 byte
+	.iProduct = usb_gadget_cpu_to_le16(STRING_PRODUCT), // 1 byte
+	.iSerialNumber = usb_gadget_cpu_to_le16(STRING_SERIAL), // 1 byte
 	.bNumConfigurations = 0x01,
 };
 
@@ -329,7 +329,7 @@ void StartGadget() {
 
 	// Create gadgetfs in memory
 	if (!alreadyMounted()) {
-		printf("Mount endpoint");
+		puts("Mount endpoint");
 		system("sudo modprobe dwc2");
 		system("sudo modprobe gadgetfs");
 		system("sudo mkdir /dev/gadget");

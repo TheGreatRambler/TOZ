@@ -187,7 +187,14 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	memcpy(p, handle->device->device, sizeof(struct usb_device_descriptor));
 	p += sizeof(struct usb_device_descriptor);
 
-	if (write(ep0->fd, buf, p - buf) < 0) {
+	// Print filename of fd
+	char filename[20];
+	char thing[20];
+	snprintf(thing, 20, "/proc/self/fd/%d", ep0->fd);
+	readlink(thing, filename, 20);
+	puts(filename);
+
+	if (write(ep0->fd, buf, p - buf) == -1) {
 		debug(ep0->handle, 2, "libusb-gadget: open_ep0: can't write config\n");
 		goto error;
 	}
@@ -197,6 +204,7 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 	return 0;
 
 error:
+	debug(handle, 2, "Error encountered\n");
 	close(ep0->fd);
 	ep0->fd = -1;
 	return -1;
