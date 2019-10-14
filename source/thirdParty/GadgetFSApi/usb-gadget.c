@@ -212,7 +212,7 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 		debug(handle, 2, "can't write config\n");
 		debug(handle, 2, strerror(errno));
 		debug(handle, 2, " <- errno string\n");
-		debug(ep0->handle, 2, "libusb-gadget: open_ep0: can't write config\n");
+		debug(handle, 2, "libusb-gadget: open_ep0: can't write config\n");
 		goto error;
 	}
 
