@@ -164,11 +164,10 @@ static int open_ep0(struct usb_gadget_dev_handle* handle) {
 
 	debug(handle, 2, "ep0 fd obtained: %d\n", ep0->fd);
 	// Print filename of fd
-	char filename[20];
-	char thing[20];
-	snprintf(thing, 20, "/proc/self/fd/%d", ep0->fd);
-	readlink(thing, filename, 20);
-	puts(filename);
+	char* filename;
+	char* thing;
+	snprintf(thing, 30, "/proc/self/fd/%d", ep0->fd);
+	readlink(thing, filename, 30);
 	debug(handle, 2, "Filename of fd: %s\n", filename);
 
 	p = buf;
