@@ -28,7 +28,6 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <errno.h>
-#include "config.h"
 #include <linux/usb/gadgetfs.h>
 #include "usb-gadget.h"
 #include "list.h"
