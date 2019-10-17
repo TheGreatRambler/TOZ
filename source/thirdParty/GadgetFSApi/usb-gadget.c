@@ -115,6 +115,7 @@ find_ep0 (struct usb_gadget_dev_handle *handle)
     "at91_udc",
     "lh740x_udc",
     "atmel_usba_udc",
+	  "20980000.usb",
     NULL
   };
   struct _usb_gadget_endpoint *ep0 = NULL;
