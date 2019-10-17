@@ -42,7 +42,7 @@ struct hid_descriptor {
 	__u8 bCountryCode;
 	__u8 bNumDescriptors;
 
-	struct hid_class_descriptor desc;
+	struct hid_class_descriptor desc[1];
 } __attribute__((packed));
 
 // Don't know how to include this yet
