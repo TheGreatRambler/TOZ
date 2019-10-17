@@ -344,8 +344,8 @@ void StartGadget() {
 		//.hs_config = loopback_hs_config,
 		.strings = &procontroller_strings,
 		// HID report descriptor
-		.HIDreport = procontrollerHIDReportDescriptor,
-		.HIDreportSize = 203,
+		//.HIDreport = procontrollerHIDReportDescriptor,
+		//.HIDreportSize = 203,
 	};
 
 	struct pollfd fds;
