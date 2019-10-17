@@ -41,6 +41,8 @@ int main(int argc, char** argv) {
 		} else {
 			puts("Admin rights (using SUDO or otherwise) are required to run this application");
 		}
+		// Just print the most recent logs
+		system("tail -n 30 /var/log/syslog");
 	}
 
 	return 0;
