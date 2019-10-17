@@ -2,12 +2,12 @@
 
 #include <fcntl.h>
 #include <iostream>
+#include <linux/types.h>
 #include <linux/usb/ch9.h>
 #include <poll.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <linux/types.h>
 
 /* /dev/gadget/ep* doesn't support poll, we have to use an alternative
    approach. */
@@ -322,13 +322,10 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 }
 
 bool alreadyMounted() {
-	/*
 	struct stat buffer;
 	const std::string name = "/dev/gadget";
+	// Check if directory exists
 	return (stat(name.c_str(), &buffer) == 0);
-	*/
-	// Just always mount
-	return false;
 }
 
 void StartGadget() {
@@ -356,7 +353,7 @@ void StartGadget() {
 	usb_gadget_dev_handle* handle;
 	struct usb_gadget_endpoint* ep0;
 	int debug_level = 1;
-	fprintf(stdout,"OPENING DEVICE...\n");
+	fprintf(stdout, "OPENING DEVICE...\n");
 
 	// Open device
 	handle = usb_gadget_open(&device);
@@ -364,19 +361,19 @@ void StartGadget() {
 		fprintf(stderr, "Couldn't open device.\n");
 		return;
 	}
-	fprintf(stdout,"OPENED DEVICE!\n");
+	fprintf(stdout, "OPENED DEVICE!\n");
 	// Debug everything
 	usb_gadget_set_debug_level(handle, debug_level);
 	// Get first endpoint
 	ep0 = usb_gadget_endpoint(handle, 0);
-	fprintf(stdout,"Set ENDPOINT!\n");
+	fprintf(stdout, "Set ENDPOINT!\n");
 
 	usb_gadget_set_event_cb(handle, procontroller_event_cb, NULL);
 	fds.fd = usb_gadget_control_fd(handle);
 	fds.events = POLLIN;
-	fprintf(stdout,"Starting WHILE...\n");
+	fprintf(stdout, "Starting WHILE...\n");
 	while (1) {
-		fprintf(stdout,"start new poll\n");
+		fprintf(stdout, "start new poll\n");
 		if (poll(&fds, 1, -1) < 0) {
 			perror("poll");
 			break;
