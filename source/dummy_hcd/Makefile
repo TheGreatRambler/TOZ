@@ -4,12 +4,12 @@ FILE_NAME ?= http://raw.githubusercontent.com/raspberrypi/linux/rpi-$(shell unam
 
 # Build dummy_hcd from source
 all:
-  # Remove earlier file
-  rm dummy_hcd.c
-  # Download new one
-  wget $(FILE_NAME)
-  # Build it as a kernel module
-  make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	# Remove earlier file
+	rm dummy_hcd.c
+	# Download new one
+	wget $(FILE_NAME)
+	# Build it as a kernel module
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 clean:
-  make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
