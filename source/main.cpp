@@ -28,12 +28,12 @@ int main(int argc, char** argv) {
 		chdir(exePath.c_str());
 		// Go back one folder
 		chdir("..");
+		// Make sure build tools and kernel build tools are present
+		system("apt-get install build-essential raspberrypi-kernel-headers");
 		puts("-----Starting Update-----");
 		system("git reset --hard");
 		system("git pull origin master");
 		system("make");
-		// Make sure kernel build tools are present
-		system("apt-get install build-essential linux-headers-`uname -r`");
 		// Installs dummy_hcd
 		puts("Installing dummy_hcd");
 		chdir("source/dummy_hcd");
