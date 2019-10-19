@@ -32,6 +32,13 @@ int main(int argc, char** argv) {
 		system("git reset --hard");
 		system("git pull origin master");
 		system("make");
+		// Installs dummy_hcd
+		puts("Installing dummy_hcd");
+		chdir("source/dummy_hcd");
+		// Run makefile
+		system("make");
+		// Insert the module permanently
+		system("insmod ./dummy_hcd.ko");
 		puts("----Finished-----");
 	} else if (action == "run") {
 		// Start gadget
