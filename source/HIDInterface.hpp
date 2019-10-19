@@ -337,7 +337,7 @@ void StartGadget() {
 		system("sudo modprobe dummy_hcd");
 		system("sudo modprobe gadgetfs");
 		system("sudo mkdir /dev/gadget");
-		system("sudo mount -t gadgetfs gadgetfs /dev/gadget");
+		system("sudo mount -t gadgetfs none /dev/gadget");
 	}
 
 	struct usb_gadget_device device = {
