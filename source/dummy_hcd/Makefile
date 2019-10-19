@@ -5,7 +5,7 @@ FILE_NAME ?= http://raw.githubusercontent.com/raspberrypi/linux/rpi-$(shell unam
 # Build dummy_hcd from source
 all:
 	# Remove earlier file
-	rm dummy_hcd.c
+	rm -f dummy_hcd.c
 	# Download new one
 	wget $(FILE_NAME)
 	# Build it as a kernel module
