@@ -32,6 +32,8 @@ int main(int argc, char** argv) {
 		system("git reset --hard");
 		system("git pull origin master");
 		system("make");
+		// Make sure kernel build tools are present
+		system("apt-get install build-essential linux-headers-`uname -r`");
 		// Installs dummy_hcd
 		puts("Installing dummy_hcd");
 		chdir("source/dummy_hcd");
