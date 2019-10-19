@@ -9,9 +9,9 @@ all:
 	# Download new one
 	wget $(FILE_NAME)
 	# Build it as a kernel module
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules_install
 	# Copy module to module folder (make sure to remove old one)
-	cp dummy_hcd.ko /lib/modules/$(shell uname -r)/kernel/drivers/ --remove-destination
+	#cp dummy_hcd.ko /lib/modules/$(shell uname -r)/kernel/drivers/ --remove-destination
 
 clean:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
