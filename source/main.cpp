@@ -19,8 +19,9 @@ int main(int argc, char** argv) {
 
 	// Parse commands
 	CLI11_PARSE(app, argc, argv);
-
-	if (action == "update") {
+	if (IsRunningAsSudo()) {
+		// Sudo access is needed to compile dummy_hcd, so updating requires sudo as well
+			if (action == "update") {
 		// Run update
 		// Go to executable's path
 		std::string exePath = GetExePath();
@@ -42,14 +43,13 @@ int main(int argc, char** argv) {
 		puts("----Finished-----");
 	} else if (action == "run") {
 		// Start gadget
-		if (IsRunningAsSudo()) {
-			puts("-----Starting gadget-----");
-			StartGadget();
-		} else {
-			puts("Admin rights (using SUDO or otherwise) are required to run this application");
-		}
+		puts("-----Starting gadget-----");
+		StartGadget();
 		// Just print the most recent logs
-		system("tail -n 30 /var/log/syslog");
+		//system("tail -n 30 /var/log/syslog");
+	}
+	} else {
+			puts("Admin rights (using SUDO or otherwise) are required to run this application");
 	}
 
 	return 0;
