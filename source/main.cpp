@@ -37,10 +37,8 @@ int main(int argc, char** argv) {
 		// Installs dummy_hcd
 		puts("Installing dummy_hcd");
 		chdir("source/dummy_hcd");
-		// Run makefile
+		// Run makefile (makefile moves file to appropriate place)
 		system("make");
-		// Insert the module permanently
-		system("insmod ./dummy_hcd.ko");
 		puts("----Finished-----");
 	} else if (action == "run") {
 		// Start gadget
