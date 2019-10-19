@@ -322,10 +322,12 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 }
 
 bool alreadyMounted() {
-	struct stat buffer;
-	const std::string name = "/dev/gadget";
+	//struct stat buffer;
+	//const std::string name = "/dev/gadget";
 	// Check if directory exists
-	return (stat(name.c_str(), &buffer) == 0);
+	//return (stat(name.c_str(), &buffer) == 0);
+	// Maybe this is the reason
+	return false;
 }
 
 void StartGadget() {
