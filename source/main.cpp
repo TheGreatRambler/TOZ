@@ -37,9 +37,11 @@ int main(int argc, char** argv) {
 		system("make");
 		// Installs dummy_hcd
 		puts("Installing dummy_hcd");
-		chdir("source/dummy_hcd");
+		chdir("dummy_hcd");
 		// Run makefile (makefile moves file to appropriate place)
 		system("make");
+		// Go back to root
+		chdir("..");
 		puts("----Finished-----");
 	} else if (action == "run") {
 		// Start gadget
