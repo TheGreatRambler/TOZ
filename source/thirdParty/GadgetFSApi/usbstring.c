@@ -13,7 +13,7 @@
 #include <string.h>
 
 static inline void put_unaligned_le16(uint16_t val, uint16_t* cp) {
-	uint8_t* p = (void*) cp;
+	uint8_t* p = (uint8_t*) cp;
 
 	*p++ = (uint8_t) val;
 	*p++ = (uint8_t)(val >> 8);

@@ -41,14 +41,16 @@
 #error "Unrecognized endianness"
 #endif
 
+/*
 struct usb_gadget_string {
 	uint8_t id;
 	const char* s;
 };
 
 struct usb_gadget_strings {
-	uint16_t language; /* 0x0409 for en-us */
+	uint16_t language; // 0x0409 for en-us
 	struct usb_gadget_string* strings;
 };
+*/
 
 #endif
