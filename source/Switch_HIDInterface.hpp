@@ -346,6 +346,8 @@ int StartGadget() {
 	send_size = (uint32_t) cp - (uint32_t) init_config;
 	ret = write(fd, init_config, send_size);
 
+	printf("%d %d\n", send_size, ret);
+
 	if (ret != send_size) {
 		printf("Write error %d (%m)\n", ret);
 		goto end;

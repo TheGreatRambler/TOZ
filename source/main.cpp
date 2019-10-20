@@ -36,12 +36,12 @@ int main(int argc, char** argv) {
 			system("git pull origin master");
 			system("make");
 			// Installs dummy_hcd
-			puts("Installing dummy_hcd");
-			chdir("dummy_hcd");
+			// puts("Installing dummy_hcd");
+			// chdir("dummy_hcd");
 			// Run makefile (makefile moves file to appropriate place)
-			system("make");
+			// system("make");
 			// Go back to root
-			chdir("..");
+			// chdir("..");
 			puts("----Finished-----");
 		} else if (action == "run") {
 			// Start gadget
