@@ -19,8 +19,9 @@ int main(int argc, char** argv) {
 
 	// Parse commands
 	CLI11_PARSE(app, argc, argv);
-
-	if (action == "update") {
+	if (IsRunningAsSudo()) {
+		// Sudo access is needed to compile dummy_hcd, so updating requires sudo as well
+			if (action == "update") {
 		// Run update
 		// Go to executable's path
 		std::string exePath = GetExePath();
@@ -28,19 +29,29 @@ int main(int argc, char** argv) {
 		chdir(exePath.c_str());
 		// Go back one folder
 		chdir("..");
+		// Make sure build tools and kernel build tools are present
+		system("apt-get install build-essential raspberrypi-kernel-headers");
 		puts("-----Starting Update-----");
 		system("git reset --hard");
 		system("git pull origin master");
 		system("make");
+		// Installs dummy_hcd
+		puts("Installing dummy_hcd");
+		chdir("dummy_hcd");
+		// Run makefile (makefile moves file to appropriate place)
+		system("make");
+		// Go back to root
+		chdir("..");
 		puts("----Finished-----");
 	} else if (action == "run") {
 		// Start gadget
-		if (IsRunningAsSudo()) {
-			puts("-----Starting gadget-----");
-			StartGadget();
-		} else {
+		puts("-----Starting gadget-----");
+		StartGadget();
+		// Just print the most recent logs
+		//system("tail -n 30 /var/log/syslog");
+	}
+	} else {
 			puts("Admin rights (using SUDO or otherwise) are required to run this application");
-		}
 	}
 
 	return 0;

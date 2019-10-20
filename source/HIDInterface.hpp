@@ -322,10 +322,12 @@ static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gad
 }
 
 bool alreadyMounted() {
-	struct stat buffer;
-	const std::string name = "/dev/gadget";
+	//struct stat buffer;
+	//const std::string name = "/dev/gadget";
 	// Check if directory exists
-	return (stat(name.c_str(), &buffer) == 0);
+	//return (stat(name.c_str(), &buffer) == 0);
+	// Maybe this is the reason
+	return false;
 }
 
 void StartGadget() {
@@ -334,9 +336,10 @@ void StartGadget() {
 	if (!alreadyMounted()) {
 		puts("Mount endpoint");
 		system("sudo modprobe dwc2");
+		system("sudo modprobe dummy_hcd");
 		system("sudo modprobe gadgetfs");
 		system("sudo mkdir /dev/gadget");
-		system("sudo mount -t gadgetfs gadgetfs /dev/gadget");
+		system("sudo mount -t gadgetfs none /dev/gadget");
 	}
 
 	struct usb_gadget_device device = {
