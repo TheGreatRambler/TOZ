@@ -146,7 +146,7 @@ static struct usb_gadget_strings deviceStrings = {
 };
 
 static struct usb_device_descriptor procontroller_device_descriptor = {
-	.bLength = sizeof(procontroller_device_descriptor), // 18 bytes
+	.bLength = USB_DT_DEVICE_SIZE, // 18 bytes
 	.bDescriptorType = USB_DT_DEVICE, // Defines that this is a device
 
 	.bcdUSB = usb_gadget_cpu_to_le16(0x0200), // Defines that this is USB 2.0
@@ -168,6 +168,19 @@ static struct usb_device_descriptor procontroller_device_descriptor = {
 
 static struct usb_config_descriptor procontroller_config_descriptor = {
 	.bLength = sizeof(procontroller_config_descriptor), // 9 bytes
+	.bDescriptorType = USB_DT_CONFIG, // This is a configuration
+
+	.wTotalLength = usb_gadget_cpu_to_le16(0x0029), // 41 bytes
+	.bNumInterfaces = 0x01, // One interface
+	.bConfigurationValue = 0x01, // One??
+	.iConfiguration = 0x00, // I dunno what this does
+	.bmAttributes = 0xA0, // Remote Wakeup
+	.bMaxPower = 0xFA, // Max power is 500 mA
+};
+
+// Need high speed
+static struct usb_config_descriptor procontroller_hs_config_descriptor = {
+	.bLength = sizeof(procontroller_hs_config_descriptor), // 9 bytes
 	.bDescriptorType = USB_DT_CONFIG, // This is a configuration
 
 	.wTotalLength = usb_gadget_cpu_to_le16(0x0029), // 41 bytes
@@ -205,21 +218,21 @@ static const struct hid_descriptor procontroller_hid_descriptor = {
 };
 
 static struct usb_endpoint_descriptor procontroller_ep_in_descriptor = {
-	.bLength = sizeof(procontroller_ep_in_descriptor), // 7 bytes
+	.bLength = USB_DT_ENDPOINT_SIZE, // 7 bytes
 	.bDescriptorType = USB_DT_ENDPOINT, // This is an endpoint
 
 	.bEndpointAddress = 0x81, // bEndpointAddress (IN/D2H)
 	.bmAttributes = USB_ENDPOINT_XFER_INT, // Interrupt mode
 	.wMaxPacketSize = usb_gadget_cpu_to_le16(0x0040), // Max packet size is 64 bytes
-	.bInterval = 0x08, // I think it means 8 bytes per packet, I dunno, depends on device speed
+	//.bInterval = 0x08, // I think it means 8 bytes per packet, I dunno, depends on device speed
 };
 
 static struct usb_endpoint_descriptor procontroller_ep_out_descriptor = {
-	.bLength = sizeof(procontroller_ep_out_descriptor), // 7 bytes
+	.bLength = USB_DT_ENDPOINT_SIZE, // 7 bytes
 	.bDescriptorType = USB_DT_ENDPOINT, // This is an endpoint
 
 	.bEndpointAddress = 0x01, // bEndpointAddress (OUT/H2D)
 	.bmAttributes = USB_ENDPOINT_XFER_INT, // Interrupt mode
 	.wMaxPacketSize = usb_gadget_cpu_to_le16(0x0040), // Max packet size is 64 bytes
-	.bInterval = 0x08, // I think it means 8 bytes per packet, I dunno, depends on device speed
+	//.bInterval = 0x08, // I think it means 8 bytes per packet, I dunno, depends on device speed
 };
