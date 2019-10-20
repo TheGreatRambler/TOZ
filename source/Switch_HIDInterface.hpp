@@ -302,7 +302,7 @@ end:
 	return;
 }
 
-int StartDevice() {
+int StartGadget() {
 	int fd = -1, ret, err = -1;
 	uint32_t send_size;
 	uint8_t init_config[2048];

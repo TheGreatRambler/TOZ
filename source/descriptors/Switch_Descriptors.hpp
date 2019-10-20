@@ -125,7 +125,7 @@ enum {
 	STRING_SERIAL = 3,
 };
 
-static struct usb_gadget_string procontrollerStrings[] = {
+static struct usb_string procontrollerStrings[] = {
 	{
 		STRING_MANUFACTURER,
 		"Nintendo Co., Ltd",
