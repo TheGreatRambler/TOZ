@@ -1,32 +1,8 @@
 #pragma once
 
-#include <fcntl.h>
-#include <iostream>
 #include <linux/types.h>
 #include <linux/usb/ch9.h>
-#include <poll.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-/* /dev/gadget/ep* doesn't support poll, we have to use an alternative
-   approach. */
-#include <pthread.h>
-
-extern "C" {
-// Needed to include C header files
-#include "thirdParty/GadgetFSApi/usb-gadget.h"
-}
-
-#include "helpers.hpp"
-
-#define STRING_MANUFACTURER 25
-#define STRING_PRODUCT 45
-#define STRING_SERIAL 101
-#define STRING_LOOPBACK 250
-
-// This is a really importand constant, but it isn't included here for some reason
-#define USB_REQ_GET_REPORT 0x01
+#include <linux/usb/gadgetfs.h>
 
 // HID Descriptor type
 struct hid_class_descriptor {
@@ -141,7 +117,13 @@ char procontrollerHIDReportDescriptor[] = {
 	0xC0, // End Collection
 };
 
-static struct usb_gadget_string strings[] = {
+enum {
+	STRING_MANUFACTURER = 1,
+	STRING_PRODUCT = 2,
+	STRING_SERIAL = 3,
+};
+
+static struct usb_gadget_string procontrollerStrings[] = {
 	{
 		STRING_MANUFACTURER,
 		"Nintendo Co., Ltd",
@@ -156,13 +138,13 @@ static struct usb_gadget_string strings[] = {
 	},
 };
 
-static struct usb_gadget_strings procontroller_strings = {
+static struct usb_gadget_strings deviceStrings = {
 	.language = 0x0409, /* en-us */
-	.strings = strings,
+	.strings = procontrollerStrings,
 };
 
 static struct usb_device_descriptor procontroller_device_descriptor = {
-	.bLength = 18, // 18 bytes
+	.bLength = sizeof(procontroller_device_descriptor), // 18 bytes
 	.bDescriptorType = USB_DT_DEVICE, // Defines that this is a device
 
 	.bcdUSB = usb_gadget_cpu_to_le16(0x0200), // Defines that this is USB 2.0
@@ -183,7 +165,19 @@ static struct usb_device_descriptor procontroller_device_descriptor = {
 };
 
 static struct usb_config_descriptor procontroller_config_descriptor = {
-	.bLength = 9, // 9 bytes
+	.bLength = sizeof(procontroller_config_descriptor), // 9 bytes
+	.bDescriptorType = USB_DT_CONFIG, // This is a configuration
+
+	.wTotalLength = usb_gadget_cpu_to_le16(0x0029), // 41 bytes
+	.bNumInterfaces = 0x01, // One interface
+	.bConfigurationValue = 0x01, // One??
+	.iConfiguration = 0x00, // I dunno what this does
+	.bmAttributes = 0xA0, // Remote Wakeup
+	.bMaxPower = 0xFA, // Max power is 500 mA
+};
+
+static struct usb_config_descriptor procontroller_config_descriptor = {
+	.bLength = sizeof(procontroller_config_descriptor), // 9 bytes
 	.bDescriptorType = USB_DT_CONFIG, // This is a configuration
 
 	.wTotalLength = usb_gadget_cpu_to_le16(0x0029), // 41 bytes
@@ -195,7 +189,7 @@ static struct usb_config_descriptor procontroller_config_descriptor = {
 };
 
 static const struct usb_interface_descriptor procontroller_interface_descriptor = {
-	.bLength = 9, // 9 bytes
+	.bLength = sizeof(procontroller_interface_descriptor), // 9 bytes
 	.bDescriptorType = USB_DT_INTERFACE, // This is an interface
 
 	.bInterfaceNumber = 0x00, // Interface number 1
@@ -208,7 +202,7 @@ static const struct usb_interface_descriptor procontroller_interface_descriptor 
 };
 
 static const struct hid_descriptor procontroller_hid_descriptor = {
-	.bLength = 9, // 9 bytes
+	.bLength = sizeof(procontroller_hid_descriptor), // 9 bytes
 	.bDescriptorType = USB_DT_WIRE_ADAPTER, // Don't really know why
 
 	.bcdHID = usb_gadget_cpu_to_le16(0x0111), // bcdHID 1.11
@@ -221,7 +215,7 @@ static const struct hid_descriptor procontroller_hid_descriptor = {
 };
 
 static struct usb_endpoint_descriptor procontroller_ep_in_descriptor = {
-	.bLength = 7, // 7 bytes
+	.bLength = sizeof(procontroller_ep_in_descriptor), // 7 bytes
 	.bDescriptorType = USB_DT_ENDPOINT, // This is an endpoint
 
 	.bEndpointAddress = 0x81, // bEndpointAddress (IN/D2H)
@@ -231,7 +225,7 @@ static struct usb_endpoint_descriptor procontroller_ep_in_descriptor = {
 };
 
 static struct usb_endpoint_descriptor procontroller_ep_out_descriptor = {
-	.bLength = 7, // 7 bytes
+	.bLength = sizeof(procontroller_ep_out_descriptor), // 7 bytes
 	.bDescriptorType = USB_DT_ENDPOINT, // This is an endpoint
 
 	.bEndpointAddress = 0x01, // bEndpointAddress (OUT/H2D)
@@ -239,155 +233,3 @@ static struct usb_endpoint_descriptor procontroller_ep_out_descriptor = {
 	.wMaxPacketSize = usb_gadget_cpu_to_le16(0x0040), // Max packet size is 64 bytes
 	.bInterval = 0x08, // I think it means 8 bytes per packet, I dunno, depends on device speed
 };
-
-static struct usb_descriptor_header* procontroller_config[] = {
-	(struct usb_descriptor_header*) &procontroller_config_descriptor,
-	(struct usb_descriptor_header*) &procontroller_interface_descriptor,
-	(struct usb_descriptor_header*) &procontroller_hid_descriptor,
-	(struct usb_descriptor_header*) &procontroller_ep_in_descriptor,
-	(struct usb_descriptor_header*) &procontroller_ep_out_descriptor,
-	NULL,
-};
-
-// High speed is required for some reason
-// Its the same thing
-
-static struct usb_gadget_endpoint *procontroller_ep_in, *procontroller_ep_out;
-static pthread_t loopback_thread;
-
-static void procontroller_stop_endpoints(void* data) {
-	usb_gadget_endpoint_close(procontroller_ep_in);
-	usb_gadget_endpoint_close(procontroller_ep_out);
-}
-
-static void* data_read_loop(void* data) {
-	// Don't know why it is a void pointer
-	// 64 is wMaxPacketSize, the max acceptable packet size
-	char buf[64];
-	int ret;
-
-	// Stop endpoints later
-	pthread_cleanup_push(procontroller_stop_endpoints, NULL);
-	while (1) {
-		int i;
-
-		// This is where the thread will cancel if need be
-		pthread_testcancel();
-
-		ret = usb_gadget_endpoint_read(procontroller_ep_out, buf, 64, 100);
-		if (ret < 0) {
-			perror("usb_gadget_endpoint_read");
-			break;
-		}
-
-		// `buf` now represents our data and `ret` is the size of the data
-		printCharArray(buf, ret);
-
-		/* No need to write right now
-		if (usb_gadget_endpoint_write(procontroller_ep_in, buf, ret, 100) < 0) {
-			perror("usb_gadget_endpoint_write");
-			break;
-		}
-		*/
-	}
-	pthread_cleanup_pop(1);
-}
-
-
-static void procontroller_event_cb(usb_gadget_dev_handle* handle, struct usb_gadget_event* event, void* arg) {
-	switch (event->type) {
-		case USG_EVENT_ENDPOINT_ENABLE:
-			// Endpoints have started
-			if (event->u.number == (procontroller_ep_in_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
-				procontroller_ep_in = usb_gadget_endpoint(handle, event->u.number);
-			else if (event->u.number == (procontroller_ep_out_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
-				procontroller_ep_out = usb_gadget_endpoint(handle, event->u.number);
-
-			if (!procontroller_ep_in || !procontroller_ep_out)
-				return;
-
-			if (pthread_create(&loopback_thread, 0, data_read_loop, NULL) != 0)
-				perror("pthread_create");
-			break;
-		case USG_EVENT_ENDPOINT_DISABLE:
-			if (event->u.number == (procontroller_ep_in_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
-				procontroller_ep_in = NULL;
-			else if (event->u.number == (procontroller_ep_out_descriptor.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK))
-				procontroller_ep_out = NULL;
-		case USG_EVENT_DISCONNECT: // FALLTHROUGH
-			if (loopback_thread)
-				pthread_cancel(loopback_thread);
-			break;
-		default:
-			return;
-	}
-}
-
-bool alreadyMounted() {
-	// struct stat buffer;
-	// const std::string name = "/dev/gadget";
-	// Check if directory exists
-	// return (stat(name.c_str(), &buffer) == 0);
-	// Maybe this is the reason
-	return false;
-}
-
-void StartGadget() {
-
-	// Create gadgetfs in memory
-	if (!alreadyMounted()) {
-		puts("Mount endpoint");
-		system("sudo modprobe dwc2");
-		system("sudo modprobe dummy_hcd");
-		system("sudo modprobe gadgetfs");
-		system("sudo mkdir /dev/gadget");
-		system("sudo mount -t gadgetfs none /dev/gadget");
-	}
-
-	struct usb_gadget_device device = {
-		.device = &procontroller_device_descriptor,
-		.config = procontroller_config,
-		// High speed required for some reason
-		.hs_config = procontroller_config,
-		.strings = &procontroller_strings,
-		// HID report descriptor
-		//.HIDreport = procontrollerHIDReportDescriptor,
-		//.HIDreportSize = 203,
-	};
-
-	struct pollfd fds;
-	usb_gadget_dev_handle* handle;
-	struct usb_gadget_endpoint* ep0;
-	int debug_level = 1;
-	fprintf(stdout, "OPENING DEVICE...\n");
-
-	// Open device
-	handle = usb_gadget_open(&device);
-	if (!handle) {
-		fprintf(stderr, "Couldn't open device.\n");
-		return;
-	}
-	fprintf(stdout, "OPENED DEVICE!\n");
-	// Debug everything
-	usb_gadget_set_debug_level(handle, debug_level);
-	// Get first endpoint
-	ep0 = usb_gadget_endpoint(handle, 0);
-	fprintf(stdout, "Set ENDPOINT!\n");
-
-	usb_gadget_set_event_cb(handle, procontroller_event_cb, NULL);
-	fds.fd = usb_gadget_control_fd(handle);
-	fds.events = POLLIN;
-	fprintf(stdout, "Starting WHILE...\n");
-	while (1) {
-		fprintf(stdout, "start new poll\n");
-		if (poll(&fds, 1, -1) < 0) {
-			perror("poll");
-			break;
-		}
-		if (fds.revents & POLLIN)
-			usb_gadget_handle_control_event(handle);
-	}
-
-	// Close device
-	usb_gadget_close(handle);
-}
