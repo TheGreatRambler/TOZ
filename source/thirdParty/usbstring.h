@@ -14,7 +14,7 @@ struct usb_gadget_strings {
 };
 
 static inline void put_unaligned_le16(__u16 val, __u16* cp) {
-	__u8* p = (void*) cp;
+	__u8* p = (__u8*) cp;
 
 	*p++ = (__u8) val;
 	*p++ = (__u8)(val >> 8);
