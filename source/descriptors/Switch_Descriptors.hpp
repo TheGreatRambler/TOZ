@@ -146,11 +146,11 @@ static struct usb_gadget_strings deviceStrings = {
 };
 
 static struct usb_device_descriptor procontroller_device_descriptor = {
-	.bLength = USB_DT_DEVICE_SIZE, // 18 bytes
+	.bLength = sizeof(procontroller_device_descriptor), // 18 bytes
 	.bDescriptorType = USB_DT_DEVICE, // Defines that this is a device
 
 	.bcdUSB = usb_gadget_cpu_to_le16(0x0200), // Defines that this is USB 2.0
-	.bDeviceClass = 0x00, //  The default
+	.bDeviceClass = USB_CLASS_HID, // HID class
 	.bDeviceSubClass = 0x00, // Also the default
 	.bDeviceProtocol = 0x00, // Suprise, it's the default
 
@@ -166,6 +166,8 @@ static struct usb_device_descriptor procontroller_device_descriptor = {
 	.bNumConfigurations = 0x01,
 };
 
+printf("%d\n", sizeof(procontroller_device_descriptor));
+
 static struct usb_config_descriptor procontroller_config_descriptor = {
 	.bLength = sizeof(procontroller_config_descriptor), // 9 bytes
 	.bDescriptorType = USB_DT_CONFIG, // This is a configuration
@@ -177,6 +179,8 @@ static struct usb_config_descriptor procontroller_config_descriptor = {
 	.bmAttributes = 0xA0, // Remote Wakeup
 	.bMaxPower = 0xFA, // Max power is 500 mA
 };
+
+printf("%d\n", sizeof(procontroller_config_descriptor));
 
 // Need high speed
 static struct usb_config_descriptor procontroller_hs_config_descriptor = {
@@ -191,6 +195,8 @@ static struct usb_config_descriptor procontroller_hs_config_descriptor = {
 	.bMaxPower = 0xFA, // Max power is 500 mA
 };
 
+printf("%d\n", sizeof(procontroller_hs_config_descriptor));
+
 static const struct usb_interface_descriptor procontroller_interface_descriptor = {
 	.bLength = sizeof(procontroller_interface_descriptor), // 9 bytes
 	.bDescriptorType = USB_DT_INTERFACE, // This is an interface
@@ -203,6 +209,8 @@ static const struct usb_interface_descriptor procontroller_interface_descriptor 
 	.bInterfaceProtocol = 0x00,
 	.iInterface = 0x00, // No interface string
 };
+
+printf("%d\n", sizeof(procontroller_interface_descriptor));
 
 static const struct hid_descriptor procontroller_hid_descriptor = {
 	.bLength = sizeof(procontroller_hid_descriptor), // 9 bytes
@@ -217,8 +225,10 @@ static const struct hid_descriptor procontroller_hid_descriptor = {
 	} },
 };
 
+printf("%d\n", sizeof(procontroller_hid_descriptor));
+
 static struct usb_endpoint_descriptor procontroller_ep_in_descriptor = {
-	.bLength = USB_DT_ENDPOINT_SIZE, // 7 bytes
+	.bLength = sizeof(procontroller_ep_in_descriptor), // 7 bytes
 	.bDescriptorType = USB_DT_ENDPOINT, // This is an endpoint
 
 	.bEndpointAddress = 0x81, // bEndpointAddress (IN/D2H)
@@ -227,8 +237,10 @@ static struct usb_endpoint_descriptor procontroller_ep_in_descriptor = {
 	//.bInterval = 0x08, // I think it means 8 bytes per packet, I dunno, depends on device speed
 };
 
+printf("%d\n", sizeof(procontroller_ep_in_descriptor));
+
 static struct usb_endpoint_descriptor procontroller_ep_out_descriptor = {
-	.bLength = USB_DT_ENDPOINT_SIZE, // 7 bytes
+	.bLength = sizeof(procontroller_ep_out_descriptor), // 7 bytes
 	.bDescriptorType = USB_DT_ENDPOINT, // This is an endpoint
 
 	.bEndpointAddress = 0x01, // bEndpointAddress (OUT/H2D)
@@ -236,3 +248,5 @@ static struct usb_endpoint_descriptor procontroller_ep_out_descriptor = {
 	.wMaxPacketSize = usb_gadget_cpu_to_le16(0x0040), // Max packet size is 64 bytes
 	//.bInterval = 0x08, // I think it means 8 bytes per packet, I dunno, depends on device speed
 };
+
+printf("%d\n", sizeof(procontroller_ep_out_descriptor));
