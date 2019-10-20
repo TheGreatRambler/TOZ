@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 			// Go back one folder
 			chdir("..");
 			// Make sure build tools and kernel build tools are present
-			system("apt-get install build-essential raspberrypi-kernel-headers");
+			// system("apt-get install build-essential raspberrypi-kernel-headers");
 			puts("-----Starting Update-----");
 			system("git reset --hard");
 			system("git pull origin master");
