@@ -18,7 +18,7 @@
 
 #include <errno.h>
 
-#include "thirdParty/usbstring.hpp"
+#include "thirdParty/usbstring.h"
 
 // Descriptors
 #include "descriptors/Switch_Descriptors.hpp"

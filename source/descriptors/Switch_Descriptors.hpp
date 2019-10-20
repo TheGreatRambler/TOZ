@@ -4,6 +4,8 @@
 #include <linux/usb/ch9.h>
 #include <linux/usb/gadgetfs.h>
 
+#include "../thirdParty/usbgadget.h"
+
 // HID Descriptor type
 struct hid_class_descriptor {
 	__u8 bDescriptorType;
