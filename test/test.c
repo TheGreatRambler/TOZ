@@ -129,15 +129,16 @@ int usb_gadget_get_string(struct usb_gadget_strings* table, int id, __u8* buf) {
 	return buf[0];
 }
 
-
-#define FETCH(_var_)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
-	memcpy(cp, &_var_, _var_.bLength);                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \
+// clang-format off
+#define FETCH(_var_) \
+	memcpy(cp, &_var_, _var_.bLength); \
 	cp += _var_.bLength;
+// clang-format on
 
 #define CONFIG_VALUE 2
 
 // specific to controller
-#define USB_DEV "/dev/gadget/e1580000.dwc2"
+#define USB_DEV "/dev/gadget/20980000.usb"
 #define USB_EPIN "/dev/gadget/ep1in"
 #define USB_EPOUT "/dev/gadget/ep2out"
 
