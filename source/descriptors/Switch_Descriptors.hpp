@@ -178,18 +178,6 @@ static struct usb_config_descriptor procontroller_config_descriptor = {
 	.bMaxPower = 0xFA, // Max power is 500 mA
 };
 
-static struct usb_config_descriptor procontroller_config_descriptor = {
-	.bLength = sizeof(procontroller_config_descriptor), // 9 bytes
-	.bDescriptorType = USB_DT_CONFIG, // This is a configuration
-
-	.wTotalLength = usb_gadget_cpu_to_le16(0x0029), // 41 bytes
-	.bNumInterfaces = 0x01, // One interface
-	.bConfigurationValue = 0x01, // One??
-	.iConfiguration = 0x00, // I dunno what this does
-	.bmAttributes = 0xA0, // Remote Wakeup
-	.bMaxPower = 0xFA, // Max power is 500 mA
-};
-
 static const struct usb_interface_descriptor procontroller_interface_descriptor = {
 	.bLength = sizeof(procontroller_interface_descriptor), // 9 bytes
 	.bDescriptorType = USB_DT_INTERFACE, // This is an interface
