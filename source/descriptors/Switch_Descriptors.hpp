@@ -168,7 +168,7 @@ static struct usb_device_descriptor procontroller_device_descriptor = {
 	.bNumConfigurations = 0x01,
 };
 
-printf("%d\n", sizeof(procontroller_device_descriptor));
+// printf("%d\n", sizeof(procontroller_device_descriptor));
 
 static struct usb_config_descriptor procontroller_config_descriptor = {
 	.bLength = sizeof(procontroller_config_descriptor), // 9 bytes
@@ -182,7 +182,7 @@ static struct usb_config_descriptor procontroller_config_descriptor = {
 	.bMaxPower = 0xFA, // Max power is 500 mA
 };
 
-printf("%d\n", sizeof(procontroller_config_descriptor));
+// printf("%d\n", sizeof(procontroller_config_descriptor));
 
 // Need high speed
 static struct usb_config_descriptor procontroller_hs_config_descriptor = {
@@ -197,7 +197,7 @@ static struct usb_config_descriptor procontroller_hs_config_descriptor = {
 	.bMaxPower = 0xFA, // Max power is 500 mA
 };
 
-printf("%d\n", sizeof(procontroller_hs_config_descriptor));
+// printf("%d\n", sizeof(procontroller_hs_config_descriptor));
 
 static const struct usb_interface_descriptor procontroller_interface_descriptor = {
 	.bLength = sizeof(procontroller_interface_descriptor), // 9 bytes
@@ -212,7 +212,7 @@ static const struct usb_interface_descriptor procontroller_interface_descriptor 
 	.iInterface = 0x00, // No interface string
 };
 
-printf("%d\n", sizeof(procontroller_interface_descriptor));
+// printf("%d\n", sizeof(procontroller_interface_descriptor));
 
 static const struct hid_descriptor procontroller_hid_descriptor = {
 	.bLength = sizeof(procontroller_hid_descriptor), // 9 bytes
@@ -227,7 +227,7 @@ static const struct hid_descriptor procontroller_hid_descriptor = {
 	} },
 };
 
-printf("%d\n", sizeof(procontroller_hid_descriptor));
+// printf("%d\n", sizeof(procontroller_hid_descriptor));
 
 static struct usb_endpoint_descriptor procontroller_ep_in_descriptor = {
 	.bLength = sizeof(procontroller_ep_in_descriptor), // 7 bytes
@@ -239,7 +239,7 @@ static struct usb_endpoint_descriptor procontroller_ep_in_descriptor = {
 	//.bInterval = 0x08, // I think it means 8 bytes per packet, I dunno, depends on device speed
 };
 
-printf("%d\n", sizeof(procontroller_ep_in_descriptor));
+// printf("%d\n", sizeof(procontroller_ep_in_descriptor));
 
 static struct usb_endpoint_descriptor procontroller_ep_out_descriptor = {
 	.bLength = sizeof(procontroller_ep_out_descriptor), // 7 bytes
@@ -251,4 +251,4 @@ static struct usb_endpoint_descriptor procontroller_ep_out_descriptor = {
 	//.bInterval = 0x08, // I think it means 8 bytes per packet, I dunno, depends on device speed
 };
 
-printf("%d\n", sizeof(procontroller_ep_out_descriptor));
+// printf("%d\n", sizeof(procontroller_ep_out_descriptor));
