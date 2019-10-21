@@ -303,12 +303,12 @@ end:
 }
 
 bool alreadyMounted() {
-	// struct stat buffer;
-	// const std::string name = "/dev/gadget";
+	struct stat buffer;
+	const std::string name = "/dev/gadget";
 	// Check if directory exists
-	// return (stat(name.c_str(), &buffer) == 0);
+	return (stat(name.c_str(), &buffer) == 0);
 	// Maybe this is the reason
-	return false;
+	// return false;
 }
 
 int StartGadget() {
@@ -362,6 +362,9 @@ int StartGadget() {
 
 	// Configure ep0
 	send_size = (uint32_t) cp - (uint32_t) init_config;
+	
+	printf("Write-Return: "+write(fd,"Test-text",9));
+	
 	ret = write(fd, init_config, send_size);
 
 	printf("%d %d\n", send_size, ret);
