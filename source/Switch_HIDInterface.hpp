@@ -316,7 +316,7 @@ int StartGadget() {
 	if (!alreadyMounted()) {
 		puts("Mount endpoint");
 		system("sudo modprobe dwc2");
-		system("sudo modprobe dummy_hcd");
+		//system("sudo modprobe dummy_hcd");
 		system("sudo modprobe gadgetfs");
 		system("sudo mkdir /dev/gadget");
 		system("sudo mount -t gadgetfs none /dev/gadget");
