@@ -302,7 +302,25 @@ end:
 	return;
 }
 
+bool alreadyMounted() {
+	// struct stat buffer;
+	// const std::string name = "/dev/gadget";
+	// Check if directory exists
+	// return (stat(name.c_str(), &buffer) == 0);
+	// Maybe this is the reason
+	return false;
+}
+
 int StartGadget() {
+	// Create gadgetfs in memory
+	if (!alreadyMounted()) {
+		puts("Mount endpoint");
+		system("sudo modprobe dwc2");
+		system("sudo modprobe dummy_hcd");
+		system("sudo modprobe gadgetfs");
+		system("sudo mkdir /dev/gadget");
+		system("sudo mount -t gadgetfs none /dev/gadget");
+	}
 	int fd = -1, ret, err = -1;
 	uint32_t send_size;
 	uint8_t init_config[2048];
