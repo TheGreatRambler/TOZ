@@ -368,7 +368,7 @@ int StartGadget() {
 
 	if (ret != send_size) {
 		printf("Write error %d (%m)\n", ret);
-		printf("Errstr: %s\n", errstr(errno));
+		printf("Errstr: %s\n", strerror(errno));
 		goto end;
 	}
 
