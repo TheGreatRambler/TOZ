@@ -47,6 +47,8 @@ static struct usb_gadget_strings deviceStrings = {
 static struct usb_device_descriptor device_descriptor = {
   .bLength = USB_DT_DEVICE_SIZE,
 	.bDescriptorType = USB_DT_DEVICE,
+	
+	.bcdUSB = usb_gadget_cpu_to_le16(0x200),
 	.bDeviceClass = USB_CLASS_HID,
 	.bDeviceSubClass = 0,
 	.bDeviceProtocol = 0,
@@ -59,9 +61,12 @@ static struct usb_device_descriptor device_descriptor = {
 	.iProduct = "Custom Gadget",
 	.iSerialNumber = "0001",*/
 	
+	.bMaxPacketSize0 = 0x40,
+	
 	.idVendor = usb_gadget_cpu_to_le16(0x057E), // Nintendo
 	.idProduct = usb_gadget_cpu_to_le16(0x2009), // Pro Controller
 	.bcdDevice = usb_gadget_cpu_to_le16(0x0200), // BCD Device 4.00
+	
 	.iManufacturer = usb_gadget_cpu_to_le16(STRING_MANUFACTURER), // 1 byte
 	.iProduct = usb_gadget_cpu_to_le16(STRING_PRODUCT), // 1 byte
 	.iSerialNumber = usb_gadget_cpu_to_le16(STRING_SERIAL), // 1 byte
@@ -85,15 +90,15 @@ static struct usb_interface_descriptor if_descriptor = {
 static struct usb_endpoint_descriptor ep_descriptor_in = {
   .bLength = USB_DT_ENDPOINT_SIZE,
 	.bDescriptorType = USB_DT_ENDPOINT,
-	.bEndpointAddress = USB_DIR_IN | 1,
-	.bmAttributes = USB_ENDPOINT_XFER_BULK,
-	.wMaxPacketSize = 512, // HS size
+	.bEndpointAddress = 0x81,//USB_DIR_IN | 1,
+	.bmAttributes = USB_ENDPOINT_XFER_INT,//USB_ENDPOINT_XFER_BULK,
+	.wMaxPacketSize = usb_gadget_cpu_to_le16(0x0040),//512, // HS size
 };
 
 static struct usb_endpoint_descriptor ep_descriptor_out = {
   .bLength = USB_DT_ENDPOINT_SIZE,
 	.bDescriptorType = USB_DT_ENDPOINT,
-	.bEndpointAddress = USB_DIR_OUT | 2,
-	.bmAttributes = USB_ENDPOINT_XFER_BULK,
-	.wMaxPacketSize = 512, // HS size
+	.bEndpointAddress = 0x01,//USB_DIR_OUT | 2,
+	.bmAttributes = USB_ENDPOINT_XFER_INT,//USB_ENDPOINT_XFER_BULK,
+	.wMaxPacketSize = usb_gadget_cpu_to_le16(0x0040),//512, // HS size
 };
