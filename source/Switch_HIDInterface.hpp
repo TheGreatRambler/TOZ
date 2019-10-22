@@ -279,7 +279,7 @@ static void handle_ep0(int fd) {
 			goto end;
 		}
 		
-    printf("read: %i\n",ret);
+    printf("read: %i bytes: %s\n",ret,events);
 		nevents = ret / sizeof(events[0]);
 
 		printf("%d event(s)\n", nevents);
@@ -298,8 +298,10 @@ static void handle_ep0(int fd) {
 					handle_setup_request(fd, &events[i].u.setup);
 					break;
 				case GADGETFS_NOP:
+          printf("NOP\n");
+          break;
 				case GADGETFS_SUSPEND:
-          printf("NOP OR SUSPEND");
+          printf("SUSPEND\n");
 					break;
 			}
 		}
