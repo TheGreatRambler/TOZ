@@ -267,7 +267,7 @@ static void handle_ep0(int fd) {
 		FD_ZERO(&read_set);
 		FD_SET(fd, &read_set);
 
-    printf("select"\n);
+    printf("select\n");
 		select(fd + 1, &read_set, NULL, NULL, NULL);
 
     printf("read...\n");
