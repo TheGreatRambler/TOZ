@@ -371,7 +371,7 @@ int StartGadget() {
 	// Interface
 	FETCH(procontroller_interface_descriptor);
 	// HID descriptor
-	//FETCH(procontroller_hid_descriptor)
+	FETCH(procontroller_hid_descriptor)
 	// Endpoint in
 	FETCH(procontroller_ep_in_descriptor);
 	// Endpoint out
@@ -380,7 +380,7 @@ int StartGadget() {
 	// Add same thing for highspeed (same config)
 	FETCH(config_hs);//FETCH(procontroller_hs_config_descriptor);
 	FETCH(procontroller_interface_descriptor);
-	//FETCH(procontroller_hid_descriptor)
+	FETCH(procontroller_hid_descriptor)
 	FETCH(procontroller_ep_in_descriptor);
 	FETCH(procontroller_ep_out_descriptor);
 
