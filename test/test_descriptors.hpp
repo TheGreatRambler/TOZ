@@ -8,7 +8,7 @@
 
 #include "thirdParty/usbgadget.h"
 
-static struct device_descriptor = {
+static struct usb_device_descriptor device_descriptor = {
   .bLength = USB_DT_DEVICE_SIZE;
 	.bDescriptorType = USB_DT_DEVICE;
 	.bDeviceClass = USB_CLASS_COMM;
@@ -23,4 +23,4 @@ static struct device_descriptor = {
 	.iProduct = STRINGID_PRODUCT;
 	.iSerialNumber = STRINGID_SERIAL;
 	.bNumConfigurations = 1; // Only one configuration
-};
+} device_descriptor;
