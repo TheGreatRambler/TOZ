@@ -30,7 +30,7 @@ enum {
 	STRING_SERIAL = 3,
 };
 
-static usb_gadget_string procontrollerStrings[] = {
+static usb_string procontrollerStrings[] = {
 	{
 		STRING_MANUFACTURER,
 		"Nintendo Co., Ltd",
