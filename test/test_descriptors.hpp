@@ -7,7 +7,16 @@
 #include <stdio.h>
 
 #include "thirdParty/usbgadget.h"
-#include "thirdParty/usbstring.h"
+
+struct usb_string {
+	__u8 id;
+	const char* s;
+};
+
+struct usb_gadget_strings {
+	__u16 language; /* 0x0409 for en-us */
+	struct usb_string* strings;
+};
 
 static struct usb_endpoint_descriptor ep_descriptor_in = {
   .bLength = USB_DT_ENDPOINT_SIZE,

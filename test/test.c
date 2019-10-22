@@ -18,16 +18,6 @@
 #include "test_descriptors.hpp"
 
 /* From usbstring.[ch] */
-struct usb_string {
-	__u8 id;
-	const char* s;
-};
-
-struct usb_gadget_strings {
-	__u16 language; /* 0x0409 for en-us */
-	struct usb_string* strings;
-};
-
 static inline void put_unaligned_le16(__u16 val, __u16* cp) {
 	__u8* p = (void*) cp;
 
