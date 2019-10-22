@@ -24,7 +24,7 @@ void startHandshake(int hidFileNum) {
 		// Wrong response
 		printf("Wrong response! data: %s");
 		for(int i=0; i<data_length; ++i)
-      std:cout << std::hex << (int)next1[i];
+      std::cout << std::hex << (int)next1[i];
 		return;
 	}
 	
