@@ -19,8 +19,8 @@ static struct usb_device_descriptor device_descriptor = {
 	.idProduct = 0xBB, // My own id
 	.bcdDevice = 0x0200, // Version
 	// Strings
-	.iManufacturer = STRINGID_MANUFACTURER,
-	.iProduct = STRINGID_PRODUCT,
-	.iSerialNumber = STRINGID_SERIAL,
+	.iManufacturer = "MyOwnGadget",
+	.iProduct = "Custom Gadget",
+	.iSerialNumber = "0001",
 	.bNumConfigurations = 1, // Only one configuration
 };
