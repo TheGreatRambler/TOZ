@@ -170,7 +170,7 @@ static struct usb_device_descriptor procontroller_device_descriptor = {
 };
 
 // printf("%d\n", sizeof(procontroller_device_descriptor));
-
+/*
 static struct usb_config_descriptor procontroller_config_descriptor = {
 	.bLength = sizeof(procontroller_config_descriptor), // 9 bytes
 	.bDescriptorType = USB_DT_CONFIG, // This is a configuration
@@ -197,7 +197,7 @@ static struct usb_config_descriptor procontroller_hs_config_descriptor = {
 	.bmAttributes = 0xA0, // Remote Wakeup
 	.bMaxPower = 0xFA, // Max power is 500 mA
 };
-
+*/
 // printf("%d\n", sizeof(procontroller_hs_config_descriptor));
 
 static const struct usb_interface_descriptor procontroller_interface_descriptor = {

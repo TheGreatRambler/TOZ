@@ -338,9 +338,36 @@ int StartGadget() {
 	*(uint32_t*) init_config = 0;
 	cp = &init_config[4];
 
+	struct usb_config_descriptor config;
+	struct usb_config_descriptor config_hs;
+	
+	
+	config.bLength = sizeof(procontroller_config_descriptor); // 9 bytes
+	config.bDescriptorType = USB_DT_CONFIG; // This is a configuration
+
+	config.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;//usb_gadget_cpu_to_le16(0x0029), // 41 bytess
+	config.bNumInterfaces = 0x01; // One interface
+	config.bConfigurationValue = 0x01; // One??
+	config.iConfiguration = 0x00; // I dunno what this does
+	config.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;//0xA0 (Remote Wakeup), ONE and WAKEUP should be here
+	config.bMaxPower = 0xFA; // Max power is 500 mA
+	
+	
+	
+	config_hs.bLength = sizeof(procontroller_hs_config_descriptor); // 9 bytes
+	config_hs.bDescriptorType = USB_DT_CONFIG; // This is a configuration
+
+	config_hs.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;//usb_gadget_cpu_to_le16(0x0029), // 41 bytes
+	config_hs.bNumInterfaces = 0x01; // One interface
+	config_hs.bConfigurationValue = 0x01; // One??
+	config_hs.iConfiguration = 0x00; // I dunno what this does
+	config_hs.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;//0xA0 (Remote Wakeup), ONE and WAKEUP should be here
+	config_hs.bMaxPower = 0xFA; // Max power is 500 mA
+	
 	// Add all included descriptors
 	// First, config
-	FETCH(procontroller_config_descriptor);
+	FETCH(config);//FETCH(procontroller_config_descriptor);
+	
 	// Interface
 	FETCH(procontroller_interface_descriptor);
 	// HID descriptor
@@ -351,7 +378,7 @@ int StartGadget() {
 	FETCH(procontroller_ep_out_descriptor);
 
 	// Add same thing for highspeed (same config)
-	FETCH(procontroller_hs_config_descriptor);
+	FETCH(config_hs);//FETCH(procontroller_hs_config_descriptor);
 	FETCH(procontroller_interface_descriptor);
 	//FETCH(procontroller_hid_descriptor)
 	FETCH(procontroller_ep_in_descriptor);
