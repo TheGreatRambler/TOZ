@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 			puts("-----Starting Update-----");
 			system("git reset --hard");
 			system("git pull origin master");
-			system("make");
+			system("make -B");
 			// Installs dummy_hcd
 			// puts("Installing dummy_hcd");
 			// chdir("dummy_hcd");
