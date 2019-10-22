@@ -24,16 +24,42 @@ static struct usb_endpoint_descriptor ep_descriptor_out = {
 	.wMaxPacketSize = 512, // HS size
 };
 
+enum {
+	STRING_MANUFACTURER = 1,
+	STRING_PRODUCT = 2,
+	STRING_SERIAL = 3,
+};
+
+static struct usb_string procontrollerStrings[] = {
+	{
+		STRING_MANUFACTURER,
+		"Nintendo Co., Ltd",
+	},
+	{
+		STRING_PRODUCT,
+		"Pro Controller",
+	},
+	{
+		STRING_SERIAL,
+		"000000000001",
+	},
+};
+
+static struct usb_gadget_strings deviceStrings = {
+	.language = 0x0409, /* en-us */
+	.strings = procontrollerStrings,
+};
+
 static struct usb_device_descriptor device_descriptor = {
   .bLength = USB_DT_DEVICE_SIZE,
 	.bDescriptorType = USB_DT_DEVICE,
-	.bDeviceClass = USB_CLASS_COMM,
+	.bDeviceClass = USB_CLASS_HID,
 	.bDeviceSubClass = 0,
 	.bDeviceProtocol = 0,
 	// device_descriptor.bMaxPacketSize0 = 255; Set by driver
-	.idVendor = 0xAA, // My own id
+	/*.idVendor = 0xAA, // My own id
 	.idProduct = 0xBB, // My own id
-	.bcdDevice = 0x0200, // Version
+	.bcdDevice = 0x0200, // Version*/
 	// Strings
 	/*.iManufacturer = "MyOwnGadget",
 	.iProduct = "Custom Gadget",
@@ -42,6 +68,9 @@ static struct usb_device_descriptor device_descriptor = {
 	.idVendor = usb_gadget_cpu_to_le16(0x057E), // Nintendo
 	.idProduct = usb_gadget_cpu_to_le16(0x2009), // Pro Controller
 	.bcdDevice = usb_gadget_cpu_to_le16(0x0200), // BCD Device 4.00
+	.iManufacturer = usb_gadget_cpu_to_le16(STRING_MANUFACTURER), // 1 byte
+	.iProduct = usb_gadget_cpu_to_le16(STRING_PRODUCT), // 1 byte
+	.iSerialNumber = usb_gadget_cpu_to_le16(STRING_SERIAL), // 1 byte
 	
 	.bNumConfigurations = 1, // Only one configuration
 };
@@ -52,7 +81,7 @@ static struct usb_interface_descriptor if_descriptor = {
 	.bInterfaceNumber = 0,
 	.bAlternateSetting = 0,
 	.bNumEndpoints = 2,
-	.bInterfaceClass = USB_CLASS_COMM,
+	.bInterfaceClass = USB_CLASS_HID,
 	.bInterfaceSubClass = 0,
 	.bInterfaceProtocol = 0,
 	//.iInterface = STRINGID_INTERFACE,

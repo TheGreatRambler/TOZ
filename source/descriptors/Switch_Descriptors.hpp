@@ -148,7 +148,8 @@ static struct usb_gadget_strings deviceStrings = {
 };
 
 static struct usb_device_descriptor procontroller_device_descriptor = {
-	.bLength = sizeof(procontroller_device_descriptor), // 18 bytes
+	//.bLength = sizeof(procontroller_device_descriptor), // 18 bytes
+	.bLength = USB_DT_DEVICE_SIZE,
 	.bDescriptorType = USB_DT_DEVICE, // Defines that this is a device
 
 	.bcdUSB = usb_gadget_cpu_to_le16(0x0200), // Defines that this is USB 2.0
