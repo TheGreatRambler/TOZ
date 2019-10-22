@@ -22,6 +22,7 @@
 
 // Descriptors
 #include "descriptors/Switch_Descriptors.hpp"
+#include "performHandshake.hpp"
 
 // clang-format off
 #define FETCH(_var_) \
@@ -287,6 +288,7 @@ static void handle_ep0(int fd) {
 			switch (events[i].type) {
 				case GADGETFS_CONNECT:
 					printf("EP0 CONNECT\n");
+					startHandshake(fd);
 					break;
 				case GADGETFS_DISCONNECT:
 					printf("EP0 DISCONNECT\n");
@@ -297,6 +299,7 @@ static void handle_ep0(int fd) {
 					break;
 				case GADGETFS_NOP:
 				case GADGETFS_SUSPEND:
+          printf("NOP OR SUSPEND");
 					break;
 			}
 		}
