@@ -31,35 +31,35 @@ static struct usb_device_descriptor device_descriptor = {
 };
 
 static struct usb_interface_descriptor if_descriptor = {
-  .bLength = sizeof(if_descriptor);
-	.bDescriptorType = USB_DT_INTERFACE;
-	.bInterfaceNumber = 0;
-	.bAlternateSetting = 0;
-	.bNumEndpoints = 2;
-	.bInterfaceClass = USB_CLASS_COMM;
-	.bInterfaceSubClass = 0;
-	.bInterfaceProtocol = 0;
-	.iInterface = STRINGID_INTERFACE;
+  .bLength = sizeof(if_descriptor),
+	.bDescriptorType = USB_DT_INTERFACE,
+	.bInterfaceNumber = 0,
+	.bAlternateSetting = 0,
+	.bNumEndpoints = 2,
+	.bInterfaceClass = USB_CLASS_COMM,
+	.bInterfaceSubClass = 0,
+	.bInterfaceProtocol = 0,
+	.iInterface = STRINGID_INTERFACE,
 };
 
 static struct usb_config_descriptor config_hs = {
-  config_hs.bLength = sizeof(config_hs);
-	config_hs.bDescriptorType = USB_DT_CONFIG;
-	config_hs.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;
-	config_hs.bNumInterfaces = 1;
-	config_hs.bConfigurationValue = CONFIG_VALUE;
-	config_hs.iConfiguration = STRINGID_CONFIG_HS;
-	config_hs.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;
-	config_hs.bMaxPower = 1;
+  config_hs.bLength = sizeof(config_hs),
+	config_hs.bDescriptorType = USB_DT_CONFIG,
+	config_hs.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength,
+	config_hs.bNumInterfaces = 1,
+	config_hs.bConfigurationValue = CONFIG_VALUE,
+	config_hs.iConfiguration = STRINGID_CONFIG_HS,
+	config_hs.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER,
+	config_hs.bMaxPower = 1,
 };
 
 static struct usb_config_descirptor config = {
-  config.bLength = sizeof(config);
-	config.bDescriptorType = USB_DT_CONFIG;
-	config.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;
-	config.bNumInterfaces = 1;
-	config.bConfigurationValue = CONFIG_VALUE;
-	config.iConfiguration = STRINGID_CONFIG_LS;
-	config.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;
-	config.bMaxPower = 1;
+  config.bLength = sizeof(config),
+	config.bDescriptorType = USB_DT_CONFIG,
+	config.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength,
+	config.bNumInterfaces = 1,
+	config.bConfigurationValue = CONFIG_VALUE,
+	config.iConfiguration = STRINGID_CONFIG_LS,
+	config.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER,
+	config.bMaxPower = 1,
 };
