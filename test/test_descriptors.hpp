@@ -18,22 +18,6 @@ struct usb_gadget_strings {
 	struct usb_string* strings;
 };
 
-static struct usb_endpoint_descriptor ep_descriptor_in = {
-  .bLength = USB_DT_ENDPOINT_SIZE,
-	.bDescriptorType = USB_DT_ENDPOINT,
-	.bEndpointAddress = USB_DIR_IN | 1,
-	.bmAttributes = USB_ENDPOINT_XFER_BULK,
-	.wMaxPacketSize = 512, // HS size
-};
-
-static struct usb_endpoint_descriptor ep_descriptor_out = {
-  .bLength = USB_DT_ENDPOINT_SIZE,
-	.bDescriptorType = USB_DT_ENDPOINT,
-	.bEndpointAddress = USB_DIR_OUT | 2,
-	.bmAttributes = USB_ENDPOINT_XFER_BULK,
-	.wMaxPacketSize = 512, // HS size
-};
-
 enum {
 	STRING_MANUFACTURER = 1,
 	STRING_PRODUCT = 2,
@@ -96,4 +80,20 @@ static struct usb_interface_descriptor if_descriptor = {
 	.bInterfaceProtocol = 0,
 	//.iInterface = STRINGID_INTERFACE,
   .iInterface = 0,
+};
+
+static struct usb_endpoint_descriptor ep_descriptor_in = {
+  .bLength = USB_DT_ENDPOINT_SIZE,
+	.bDescriptorType = USB_DT_ENDPOINT,
+	.bEndpointAddress = USB_DIR_IN | 1,
+	.bmAttributes = USB_ENDPOINT_XFER_BULK,
+	.wMaxPacketSize = 512, // HS size
+};
+
+static struct usb_endpoint_descriptor ep_descriptor_out = {
+  .bLength = USB_DT_ENDPOINT_SIZE,
+	.bDescriptorType = USB_DT_ENDPOINT,
+	.bEndpointAddress = USB_DIR_OUT | 2,
+	.bmAttributes = USB_ENDPOINT_XFER_BULK,
+	.wMaxPacketSize = 512, // HS size
 };
