@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 
-#include "../thirdParty/usbgadget.h"
+#include "thirdParty/usbgadget.h"
 
 static struct device_descriptor = {
   .bLength = USB_DT_DEVICE_SIZE;
