@@ -23,4 +23,4 @@ static struct device_descriptor = {
 	.iProduct = STRINGID_PRODUCT;
 	.iSerialNumber = STRINGID_SERIAL;
 	.bNumConfigurations = 1; // Only one configuration
-}
+};
