@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 #include "thirdParty/usbgadget.h"
+#include "thirdParty/usbstring.h"
 
 static struct usb_endpoint_descriptor ep_descriptor_in = {
   .bLength = USB_DT_ENDPOINT_SIZE,
