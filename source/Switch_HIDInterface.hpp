@@ -345,7 +345,7 @@ int StartGadget() {
 	config.bLength = sizeof(config); // 9 bytes
 	config.bDescriptorType = USB_DT_CONFIG; // This is a configuration
 
-	config.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;//usb_gadget_cpu_to_le16(0x0029), // 41 bytess
+	config.wTotalLength = config.bLength + procontroller_interface_descriptor.bLength + procontroller_ep_in_descriptor.bLength + procontroller_ep_out_descriptor.bLength;//usb_gadget_cpu_to_le16(0x0029), // 41 bytess
 	config.bNumInterfaces = 0x01; // One interface
 	config.bConfigurationValue = 0x01; // One??
 	config.iConfiguration = 0x00; // I dunno what this does
@@ -354,10 +354,10 @@ int StartGadget() {
 	
 	
 	
-	config_hs.bLength = sizeof(hs_config); // 9 bytes
+	config_hs.bLength = sizeof(config_hs); // 9 bytes
 	config_hs.bDescriptorType = USB_DT_CONFIG; // This is a configuration
 
-	config_hs.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;//usb_gadget_cpu_to_le16(0x0029), // 41 bytes
+	config_hs.wTotalLength = config_hs.bLength + procontroller_interface_descriptor.bLength + procontroller_ep_in_descriptor.bLength + procontroller_ep_out_descriptor.bLength;//usb_gadget_cpu_to_le16(0x0029), // 41 bytes
 	config_hs.bNumInterfaces = 0x01; // One interface
 	config_hs.bConfigurationValue = 0x01; // One??
 	config_hs.iConfiguration = 0x00; // I dunno what this does
