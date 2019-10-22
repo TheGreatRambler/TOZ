@@ -447,7 +447,7 @@ int main() {
 	uint32_t send_size;
 	struct usb_config_descriptor config;
 	struct usb_config_descriptor config_hs;
-	struct usb_device_descriptor device_descriptor;
+	//struct usb_device_descriptor device_descriptor;
 	struct usb_interface_descriptor if_descriptor;
 	uint8_t init_config[2048];
 	uint8_t* cp;
@@ -466,7 +466,7 @@ int main() {
 	
 	printf("init_config: %i\n",init_config);
 
-	device_descriptor.bLength = USB_DT_DEVICE_SIZE;
+	/*device_descriptor.bLength = USB_DT_DEVICE_SIZE;
 	device_descriptor.bDescriptorType = USB_DT_DEVICE;
 	device_descriptor.bDeviceClass = USB_CLASS_COMM;
 	device_descriptor.bDeviceSubClass = 0;
@@ -479,7 +479,7 @@ int main() {
 	device_descriptor.iManufacturer = STRINGID_MANUFACTURER;
 	device_descriptor.iProduct = STRINGID_PRODUCT;
 	device_descriptor.iSerialNumber = STRINGID_SERIAL;
-	device_descriptor.bNumConfigurations = 1; // Only one configuration
+	device_descriptor.bNumConfigurations = 1; // Only one configuration*/
 
 	ep_descriptor_in.bLength = USB_DT_ENDPOINT_SIZE;
 	ep_descriptor_in.bDescriptorType = USB_DT_ENDPOINT;
@@ -552,4 +552,21 @@ end:
 		close(fd);
 
 	return err;
+}
+
+static struct device_descriptor = {
+  .bLength = USB_DT_DEVICE_SIZE;
+	.bDescriptorType = USB_DT_DEVICE;
+	.bDeviceClass = USB_CLASS_COMM;
+	.bDeviceSubClass = 0;
+	.bDeviceProtocol = 0;
+	// device_descriptor.bMaxPacketSize0 = 255; Set by driver
+	.idVendor = 0xAA; // My own id
+	.idProduct = 0xBB; // My own id
+	.bcdDevice = 0x0200; // Version
+	// Strings
+	.iManufacturer = STRINGID_MANUFACTURER;
+	.iProduct = STRINGID_PRODUCT;
+	.iSerialNumber = STRINGID_SERIAL;
+	.bNumConfigurations = 1; // Only one configuration
 }
