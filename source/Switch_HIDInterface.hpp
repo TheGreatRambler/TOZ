@@ -263,18 +263,22 @@ static void handle_ep0(int fd) {
 	struct usb_gadgetfs_event events[5];
 
 	while (1) {
+    printf("FD_ZERO\n");
 		FD_ZERO(&read_set);
 		FD_SET(fd, &read_set);
 
+    printf("select"\n);
 		select(fd + 1, &read_set, NULL, NULL, NULL);
 
+    printf("read...\n");
 		ret = read(fd, &events, sizeof(events));
 
 		if (ret < 0) {
 			printf("Read error %d (%m)\n", ret);
 			goto end;
 		}
-
+		
+    printf("read: %i\n",ret);
 		nevents = ret / sizeof(events[0]);
 
 		printf("%d event(s)\n", nevents);
@@ -391,8 +395,6 @@ int StartGadget() {
 	send_size = (uint32_t) cp - (uint32_t) init_config;
 	
 	ret = write(fd, init_config, send_size);
-
-	printf("%d %d\n", send_size, ret);
 
 	if (ret != send_size) {
 		printf("Write error %d (%m)\n", ret);
