@@ -446,8 +446,8 @@ end:
 int main() {
 	int fd = -1, ret, err = -1;
 	uint32_t send_size;
-	//struct usb_config_descriptor config;
-	//struct usb_config_descriptor config_hs;
+	struct usb_config_descriptor config;
+	struct usb_config_descriptor config_hs;
 	//struct usb_device_descriptor device_descriptor;
 	//struct usb_interface_descriptor if_descriptor;
 	uint8_t init_config[2048];
@@ -504,23 +504,23 @@ int main() {
 	if_descriptor.bInterfaceProtocol = 0;
 	if_descriptor.iInterface = STRINGID_INTERFACE;*/
 
-	/*config_hs.bLength = sizeof(config_hs);
+	config_hs.bLength = sizeof(config_hs);
 	config_hs.bDescriptorType = USB_DT_CONFIG;
 	config_hs.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;
 	config_hs.bNumInterfaces = 1;
 	config_hs.bConfigurationValue = CONFIG_VALUE;
 	config_hs.iConfiguration = STRINGID_CONFIG_HS;
 	config_hs.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;
-	config_hs.bMaxPower = 1;*/
+	config_hs.bMaxPower = 1;
 
-	/*config.bLength = sizeof(config);
+	config.bLength = sizeof(config);
 	config.bDescriptorType = USB_DT_CONFIG;
 	config.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;
 	config.bNumInterfaces = 1;
 	config.bConfigurationValue = CONFIG_VALUE;
 	config.iConfiguration = STRINGID_CONFIG_LS;
 	config.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;
-	config.bMaxPower = 1;*/
+	config.bMaxPower = 1;
 
 	FETCH(config);
 	FETCH(if_descriptor);
