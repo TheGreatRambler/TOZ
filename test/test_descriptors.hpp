@@ -23,4 +23,4 @@ static struct usb_device_descriptor device_descriptor = {
 	.iProduct = STRINGID_PRODUCT;
 	.iSerialNumber = STRINGID_SERIAL;
 	.bNumConfigurations = 1; // Only one configuration
-} device_descriptor;
+};
