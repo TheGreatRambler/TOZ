@@ -464,7 +464,7 @@ int main() {
 	*(uint32_t*) init_config = 0;
 	cp = &init_config[4];
 	
-	printf("cp: %i\n",cp);
+	printf("init_config: %i\n",init_config);
 
 	device_descriptor.bLength = USB_DT_DEVICE_SIZE;
 	device_descriptor.bDescriptorType = USB_DT_DEVICE;
@@ -535,6 +535,7 @@ int main() {
 
 	// Configure ep0
 	send_size = (uint32_t) cp - (uint32_t) init_config;
+	printf("SendSize: %i\n",send_size);
 	ret = write(fd, init_config, send_size);
 
 	if (ret != send_size) {
