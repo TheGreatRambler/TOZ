@@ -461,19 +461,19 @@ int main() {
 	config_hs.bDescriptorType = USB_DT_CONFIG;
 	config_hs.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;//REAL usb_gadget_cpu_to_le16(0x0029);
 	config_hs.bNumInterfaces = 1;
-	config_hs.bConfigurationValue = CONFIG_VALUE;//REAL 1;
-	config_hs.iConfiguration = STRINGID_CONFIG_HS;//REAL 0;
+	config_hs.bConfigurationValue = 1;//CONFIG_VALUE;
+	config_hs.iConfiguration = 0;//STRINGID_CONFIG_LS;
 	config_hs.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;//REAL 0xA0;
-	config_hs.bMaxPower = 1;//REAL 0xFA;
+	config_hs.bMaxPower = 0xFA;//1;
 
 	config.bLength = sizeof(config);
 	config.bDescriptorType = USB_DT_CONFIG;
 	config.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;//REAL usb_gadget_cpu_to_le16(0x0029);
 	config.bNumInterfaces = 1;
-	config.bConfigurationValue = CONFIG_VALUE;//REAL 1;
-	config.iConfiguration = STRINGID_CONFIG_LS;//REAL 0;
+	config.bConfigurationValue = 1;//CONFIG_VALUE;
+	config.iConfiguration = 0;//STRINGID_CONFIG_LS;
 	config.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;//REAL 0xA0;
-	config.bMaxPower = 1;//REAL 0xFA;
+	config.bMaxPower = 0xFA;//1;
 
 	FETCH(config);
 	FETCH(if_descriptor);
