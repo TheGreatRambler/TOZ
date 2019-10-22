@@ -394,6 +394,8 @@ int StartGadget() {
 	// Configure ep0
 	send_size = (uint32_t) cp - (uint32_t) init_config;
 	
+	printf("WRITE-TEST: %i\n",write(fd,"HI",2);
+	
 	ret = write(fd, init_config, send_size);
 
 	if (ret != send_size) {
