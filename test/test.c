@@ -463,7 +463,7 @@ int main() {
 	config_hs.bNumInterfaces = 1;
 	config_hs.bConfigurationValue = 1;//CONFIG_VALUE;
 	config_hs.iConfiguration = 0;//STRINGID_CONFIG_LS;
-	config_hs.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;//REAL 0xA0;
+	config_hs.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_WAEKEUP;
 	config_hs.bMaxPower = 0xFA;//1;
 
 	config.bLength = sizeof(config);
@@ -472,7 +472,7 @@ int main() {
 	config.bNumInterfaces = 1;
 	config.bConfigurationValue = 1;//CONFIG_VALUE;
 	config.iConfiguration = 0;//STRINGID_CONFIG_LS;
-	config.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;//REAL 0xA0;
+	config.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_WAKEUP;
 	config.bMaxPower = 0xFA;//1;
 
 	FETCH(config);
