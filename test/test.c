@@ -459,18 +459,18 @@ int main() {
 
 	config_hs.bLength = sizeof(config_hs);
 	config_hs.bDescriptorType = USB_DT_CONFIG;
-	config_hs.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;
+	config_hs.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;//REAL usb_gadget_cpu_to_le16(0x0029);
 	config_hs.bNumInterfaces = 1;
-	config_hs.bConfigurationValue = 1;//CONFIG_VALUE;
+	config_hs.bConfigurationValue = CONFIG_VALUE;
 	config_hs.iConfiguration = 0;//STRINGID_CONFIG_HS;
 	config_hs.bmAttributes = 0xA0;//USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;
 	config_hs.bMaxPower = 0xFA;//1;
 
 	config.bLength = sizeof(config);
 	config.bDescriptorType = USB_DT_CONFIG;
-	config.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;
+	config.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;//REAL usb_gadget_cpu_to_le16(0x0029);
 	config.bNumInterfaces = 1;
-	config.bConfigurationValue = 1;//CONFIG_VALUE;
+	config.bConfigurationValue = CONFIG_VALUE;
 	config.iConfiguration = 0;//STRINGID_CONFIG_LS;
 	config.bmAttributes = 0xA0;//USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;
 	config.bMaxPower = 0xFA;//1;
