@@ -22,7 +22,9 @@ void startHandshake(int hidFileNum) {
 
 	if (memcmp(next1, dataToExpect1, 12) != 0) {
 		// Wrong response
-		printf("Wrong response!");
+		printf("Wrong response! data: %s");
+		for(int i=0; i<data_length; ++i)
+      std:cout << std::hex << (int)next1[i];
 		return;
 	}
 	
