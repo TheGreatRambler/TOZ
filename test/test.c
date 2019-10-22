@@ -185,8 +185,8 @@ static struct usb_gadget_strings strings = {
 	.strings = stringtab,
 };
 
-static struct usb_endpoint_descriptor ep_descriptor_in;
-static struct usb_endpoint_descriptor ep_descriptor_out;
+//static struct usb_endpoint_descriptor ep_descriptor_in;
+//static struct usb_endpoint_descriptor ep_descriptor_out;
 
 /*
  * Respond to host requests
@@ -482,7 +482,7 @@ int main() {
 	device_descriptor.iSerialNumber = STRINGID_SERIAL;
 	device_descriptor.bNumConfigurations = 1; // Only one configuration*/
 
-	ep_descriptor_in.bLength = USB_DT_ENDPOINT_SIZE;
+	/*ep_descriptor_in.bLength = USB_DT_ENDPOINT_SIZE;
 	ep_descriptor_in.bDescriptorType = USB_DT_ENDPOINT;
 	ep_descriptor_in.bEndpointAddress = USB_DIR_IN | 1;
 	ep_descriptor_in.bmAttributes = USB_ENDPOINT_XFER_BULK;
@@ -492,7 +492,7 @@ int main() {
 	ep_descriptor_out.bDescriptorType = USB_DT_ENDPOINT;
 	ep_descriptor_out.bEndpointAddress = USB_DIR_OUT | 2;
 	ep_descriptor_out.bmAttributes = USB_ENDPOINT_XFER_BULK;
-	ep_descriptor_out.wMaxPacketSize = 512; // HS size
+	ep_descriptor_out.wMaxPacketSize = 512; // HS size*/
 
 	/*if_descriptor.bLength = sizeof(if_descriptor);
 	if_descriptor.bDescriptorType = USB_DT_INTERFACE;
