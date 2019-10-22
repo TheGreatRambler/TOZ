@@ -342,7 +342,7 @@ int StartGadget() {
 	struct usb_config_descriptor config_hs;
 	
 	
-	config.bLength = sizeof(procontroller_config_descriptor); // 9 bytes
+	config.bLength = sizeof(config); // 9 bytes
 	config.bDescriptorType = USB_DT_CONFIG; // This is a configuration
 
 	config.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;//usb_gadget_cpu_to_le16(0x0029), // 41 bytess
@@ -354,7 +354,7 @@ int StartGadget() {
 	
 	
 	
-	config_hs.bLength = sizeof(procontroller_hs_config_descriptor); // 9 bytes
+	config_hs.bLength = sizeof(hs_config); // 9 bytes
 	config_hs.bDescriptorType = USB_DT_CONFIG; // This is a configuration
 
 	config_hs.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;//usb_gadget_cpu_to_le16(0x0029), // 41 bytes
