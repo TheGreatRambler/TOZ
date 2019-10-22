@@ -19,8 +19,13 @@ static struct usb_device_descriptor device_descriptor = {
 	.idProduct = 0xBB, // My own id
 	.bcdDevice = 0x0200, // Version
 	// Strings
-	.iManufacturer = "MyOwnGadget",
+	/*.iManufacturer = "MyOwnGadget",
 	.iProduct = "Custom Gadget",
-	.iSerialNumber = "0001",
+	.iSerialNumber = "0001",*/
+	
+	.idVendor = usb_gadget_cpu_to_le16(0x057E), // Nintendo
+	.idProduct = usb_gadget_cpu_to_le16(0x2009), // Pro Controller
+	.bcdDevice = usb_gadget_cpu_to_le16(0x0200), // BCD Device 4.00
+	
 	.bNumConfigurations = 1, // Only one configuration
 };
