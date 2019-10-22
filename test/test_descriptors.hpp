@@ -58,25 +58,3 @@ static struct usb_interface_descriptor if_descriptor = {
 	//.iInterface = STRINGID_INTERFACE,
   .iInterface = 0,
 };
-
-/*static struct usb_config_descriptor config_hs = {
-  .bLength = sizeof(config_hs),
-	.bDescriptorType = USB_DT_CONFIG,
-	.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength,
-	.bNumInterfaces = 1,
-	.bConfigurationValue = 2, //CONFIG VALUE
-	.iConfiguration = 0,//STRINGID_CONFIG_HS,
-	.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER,
-	.bMaxPower = 1,
-};
-
-static struct usb_config_descriptor config = {
-  .bLength = sizeof(config),
-	.bDescriptorType = USB_DT_CONFIG,
-	.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength,
-	.bNumInterfaces = 1,
-	.bConfigurationValue = 2,//CONFIG_VALUE,
-	.iConfiguration = 0,//STRINGID_CONFIG_LS,
-	.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER,
-	.bMaxPower = 1,
-};*/

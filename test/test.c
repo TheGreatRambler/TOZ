@@ -467,43 +467,6 @@ int main() {
 	
 	printf("init_config: %i\n",init_config);
 
-	/*device_descriptor.bLength = USB_DT_DEVICE_SIZE;
-	device_descriptor.bDescriptorType = USB_DT_DEVICE;
-	device_descriptor.bDeviceClass = USB_CLASS_COMM;
-	device_descriptor.bDeviceSubClass = 0;
-	device_descriptor.bDeviceProtocol = 0;
-	// device_descriptor.bMaxPacketSize0 = 255; Set by driver
-	device_descriptor.idVendor = 0xAA; // My own id
-	device_descriptor.idProduct = 0xBB; // My own id
-	device_descriptor.bcdDevice = 0x0200; // Version
-	// Strings
-	device_descriptor.iManufacturer = STRINGID_MANUFACTURER;
-	device_descriptor.iProduct = STRINGID_PRODUCT;
-	device_descriptor.iSerialNumber = STRINGID_SERIAL;
-	device_descriptor.bNumConfigurations = 1; // Only one configuration*/
-
-	/*ep_descriptor_in.bLength = USB_DT_ENDPOINT_SIZE;
-	ep_descriptor_in.bDescriptorType = USB_DT_ENDPOINT;
-	ep_descriptor_in.bEndpointAddress = USB_DIR_IN | 1;
-	ep_descriptor_in.bmAttributes = USB_ENDPOINT_XFER_BULK;
-	ep_descriptor_in.wMaxPacketSize = 512; // HS size
-
-	ep_descriptor_out.bLength = USB_DT_ENDPOINT_SIZE;
-	ep_descriptor_out.bDescriptorType = USB_DT_ENDPOINT;
-	ep_descriptor_out.bEndpointAddress = USB_DIR_OUT | 2;
-	ep_descriptor_out.bmAttributes = USB_ENDPOINT_XFER_BULK;
-	ep_descriptor_out.wMaxPacketSize = 512; // HS size*/
-
-	/*if_descriptor.bLength = sizeof(if_descriptor);
-	if_descriptor.bDescriptorType = USB_DT_INTERFACE;
-	if_descriptor.bInterfaceNumber = 0;
-	if_descriptor.bAlternateSetting = 0;
-	if_descriptor.bNumEndpoints = 2;
-	if_descriptor.bInterfaceClass = USB_CLASS_COMM;
-	if_descriptor.bInterfaceSubClass = 0;
-	if_descriptor.bInterfaceProtocol = 0;
-	if_descriptor.iInterface = STRINGID_INTERFACE;*/
-
 	config_hs.bLength = sizeof(config_hs);
 	config_hs.bDescriptorType = USB_DT_CONFIG;
 	config_hs.wTotalLength = config_hs.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength;
