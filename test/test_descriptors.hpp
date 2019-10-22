@@ -9,19 +9,19 @@
 #include "thirdParty/usbgadget.h"
 
 static struct usb_endpoint_descriptor ep_descriptor_in = {
-  .bLength = USB_DT_ENDPOINT_SIZE;
-	.bDescriptorType = USB_DT_ENDPOINT;
-	.bEndpointAddress = USB_DIR_IN | 1;
-	.bmAttributes = USB_ENDPOINT_XFER_BULK;
-	.wMaxPacketSize = 512; // HS size
+  .bLength = USB_DT_ENDPOINT_SIZE,
+	.bDescriptorType = USB_DT_ENDPOINT,
+	.bEndpointAddress = USB_DIR_IN | 1,
+	.bmAttributes = USB_ENDPOINT_XFER_BULK,
+	.wMaxPacketSize = 512, // HS size
 };
 
 static struct usb_endpoint_descriptor ep_descriptor_out = {
-  .bLength = USB_DT_ENDPOINT_SIZE;
-	.bDescriptorType = USB_DT_ENDPOINT;
-	.bEndpointAddress = USB_DIR_OUT | 2;
-	.bmAttributes = USB_ENDPOINT_XFER_BULK;
-	.wMaxPacketSize = 512; // HS size
+  .bLength = USB_DT_ENDPOINT_SIZE,
+	.bDescriptorType = USB_DT_ENDPOINT,
+	.bEndpointAddress = USB_DIR_OUT | 2,
+	.bmAttributes = USB_ENDPOINT_XFER_BULK,
+	.wMaxPacketSize = 512, // HS size
 };
 
 static struct usb_device_descriptor device_descriptor = {
@@ -75,8 +75,8 @@ static struct usb_config_descriptor config = {
 	.bDescriptorType = USB_DT_CONFIG,
 	.wTotalLength = config.bLength + if_descriptor.bLength + ep_descriptor_in.bLength + ep_descriptor_out.bLength,
 	.bNumInterfaces = 1,
-	.bConfigurationValue = CONFIG_VALUE,
-	.iConfiguration = STRINGID_CONFIG_LS,
+	.bConfigurationValue = 2,//CONFIG_VALUE,
+	.iConfiguration = 0,//STRINGID_CONFIG_LS,
 	.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER,
 	.bMaxPower = 1,
 };
