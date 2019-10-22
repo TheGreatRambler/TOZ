@@ -279,7 +279,6 @@ static void handle_ep0(int fd) {
 			goto end;
 		}
 		
-    printf("read: %i bytes: %s\n",ret,events);
 		nevents = ret / sizeof(events[0]);
 
 		printf("%d event(s)\n", nevents);

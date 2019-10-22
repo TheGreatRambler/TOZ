@@ -22,13 +22,14 @@ void startHandshake(int hidFileNum) {
 
 	if (memcmp(next1, dataToExpect1, 12) != 0) {
 		// Wrong response
-		printf("Wrong response! data: %s");
+		printf("Wrong response! data: ");
 		for(int i=0; i<12; ++i)
       std::cout << std::hex << (int)next1[i];
+    printf("\n");
 		return;
 	}
 	
-	printf("Correct response!");
+	printf("Correct response!\n");
 
 	// Get MAC address of wlan0 (main wifi)
 	std::string macAdress = GetStdoutFromCommand("cat /sys/class/net/wlan0/address");
