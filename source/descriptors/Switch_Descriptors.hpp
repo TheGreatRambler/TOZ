@@ -218,8 +218,8 @@ static const struct usb_interface_descriptor procontroller_interface_descriptor 
 	//.bAlternateSetting = 0x00, // I dunno
 	.bNumEndpoints = 0x02, // Two endpoints
 	.bInterfaceClass = USB_CLASS_HID, // HID interface
-	.bInterfaceSubClass = 0x01;//0x00,
-	.bInterfaceProtocol = 0x01;//0x00,
+	.bInterfaceSubClass = 0x01,//0x00,
+	.bInterfaceProtocol = 0x01,//0x00,
 	.iInterface = STRING_INTERFACE,//0x00, // No interface string
 };
 
