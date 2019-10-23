@@ -287,7 +287,7 @@ static void handle_ep0(int fd) {
 			switch (events[i].type) {
 				case GADGETFS_CONNECT:
 					printf("EP0 CONNECT\n");
-					startHandshake(fd);
+					//startHandshake(fd);
 					break;
 				case GADGETFS_DISCONNECT:
 					printf("EP0 DISCONNECT\n");
