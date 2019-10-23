@@ -125,6 +125,8 @@ enum {
 	STRING_MANUFACTURER = 1,
 	STRING_PRODUCT = 2,
 	STRING_SERIAL = 3,
+	STRING_CONFIG = 4,
+	STRING_INTERFACE = 4,
 };
 
 static struct usb_string procontrollerStrings[] = {
@@ -139,6 +141,14 @@ static struct usb_string procontrollerStrings[] = {
 	{
 		STRING_SERIAL,
 		"000000000001",
+	},
+	{
+		STRING_CONFIG,
+		"The Configuration",
+	},
+	{
+		STRING_INTERFACE,
+		"Source/Sink",
 	},
 };
 
@@ -204,13 +214,13 @@ static const struct usb_interface_descriptor procontroller_interface_descriptor 
 	.bLength = sizeof(procontroller_interface_descriptor), // 9 bytes
 	.bDescriptorType = USB_DT_INTERFACE, // This is an interface
 
-	.bInterfaceNumber = 0x00, // Interface number 1
-	.bAlternateSetting = 0x00, // I dunno
+	//.bInterfaceNumber = 0x00, // Interface number 1
+	//.bAlternateSetting = 0x00, // I dunno
 	.bNumEndpoints = 0x02, // Two endpoints
 	.bInterfaceClass = USB_CLASS_HID, // HID interface
-	.bInterfaceSubClass = 0x00,
-	.bInterfaceProtocol = 0x00,
-	.iInterface = 0x00, // No interface string
+	.bInterfaceSubClass = 0x01;//0x00,
+	.bInterfaceProtocol = 0x01;//0x00,
+	.iInterface = STRING_INTERFACE,//0x00, // No interface string
 };
 
 // printf("%d\n", sizeof(procontroller_interface_descriptor));

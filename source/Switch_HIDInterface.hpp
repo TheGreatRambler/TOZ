@@ -356,7 +356,7 @@ int StartGadget() {
 	config.wTotalLength = config.bLength + procontroller_interface_descriptor.bLength + procontroller_ep_in_descriptor.bLength + procontroller_ep_out_descriptor.bLength;//usb_gadget_cpu_to_le16(0x0029), // 41 bytess
 	config.bNumInterfaces = 0x01; // One interface
 	config.bConfigurationValue = 0x01; // One??
-	config.iConfiguration = 0x00; // I dunno what this does
+	config.iConfiguration = STRING_CONFIG; // I dunno what this does
 	config.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;//0xA0 (Remote Wakeup), ONE and WAKEUP should be here
 	config.bMaxPower = 0xFA; // Max power is 500 mA
 	
@@ -368,7 +368,7 @@ int StartGadget() {
 	config_hs.wTotalLength = config_hs.bLength + procontroller_interface_descriptor.bLength + procontroller_ep_in_descriptor.bLength + procontroller_ep_out_descriptor.bLength;//usb_gadget_cpu_to_le16(0x0029), // 41 bytes
 	config_hs.bNumInterfaces = 0x01; // One interface
 	config_hs.bConfigurationValue = 0x01; // One??
-	config_hs.iConfiguration = 0x00; // I dunno what this does
+	config_hs.iConfiguration = STRING_CONFIG; // I dunno what this does
 	config_hs.bmAttributes = USB_CONFIG_ATT_ONE | USB_CONFIG_ATT_SELFPOWER;//0xA0 (Remote Wakeup), ONE and WAKEUP should be here
 	config_hs.bMaxPower = 0xFA; // Max power is 500 mA
 	
