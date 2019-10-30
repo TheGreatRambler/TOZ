@@ -67,7 +67,7 @@ int ConfigureSerialPort(struct sp_port *port) {
    return retval;
 }
 
-int openPort() {
+int OpenPort() {
    int retval;
    int error = 0;
    struct sp_port *port;
