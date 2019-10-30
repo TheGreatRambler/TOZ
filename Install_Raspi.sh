@@ -16,3 +16,6 @@ fi
 
 # Finally, build the program
 make
+
+# Done
+echo "Installed"
