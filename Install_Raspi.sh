@@ -5,6 +5,9 @@ then
 	echo "dtoverlay=dwc2" | sudo tee -a /boot/config.txt
 fi
 
+# Install libserialport for ease-of-use
+apt install libserialport-dev
+
 # Disable serial console (alternative to UI setup)
 raspi-config nonint do_serial 1
 
