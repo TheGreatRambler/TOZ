@@ -190,7 +190,7 @@ static struct usb_config_descriptor procontroller_config_descriptor = {
 	.bNumInterfaces = 0x01, // One interface
 	.bConfigurationValue = 0x01, // One??
 	.iConfiguration = 0x00, // I dunno what this does
-	.bmAttributes = 0xA0, // Remote Wakeup
+	.bmAttributes = 0xA0, // Remote Wakeup <----- THIS IS A KNOWN PROBLEM
 	.bMaxPower = 0xFA, // Max power is 500 mA
 };
 
@@ -338,7 +338,7 @@ void StartGadget() {
 	if (!alreadyMounted()) {
 		puts("Mount endpoint");
 		system("sudo modprobe dwc2");
-		system("sudo modprobe dummy_hcd");
+		//system("sudo modprobe dummy_hcd");
 		system("sudo modprobe gadgetfs");
 		system("sudo mkdir /dev/gadget");
 		system("sudo mount -t gadgetfs none /dev/gadget");
