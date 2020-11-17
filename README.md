@@ -1,5 +1,6 @@
 # TOZ
-Tas On Zero: Run TAS on a Raspi Zero
+Tas On Zero: Run TAS on a Raspi Zero.
+Sadly, the hardware required to accomplish this task is not available on the Raspi Zero (I tried driver solutions, no dice), so this project is put on hold indefinitely.
 
 ## How to install
 For those that need to install Rasbian
